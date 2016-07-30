@@ -3,6 +3,7 @@ package com.fozoto.duobao.model;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Entity(name = "Calculator")
 @Scope("prototype")
-public class Calculator {
+public class Calculator implements Serializable{
 
     private int id;                 //主键
     private List<Number> numbers;   // 本商品最后50条夺宝记录
@@ -20,13 +21,16 @@ public class Calculator {
     private String numB;            // 重庆时时彩开奖的号码
     private String result;          // 计算结果
 
+    private Lucky lucky;            // 幸运号码
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
 
-    @OneToMany(targetEntity = Number.class, cascade = CascadeType.ALL)
+    // Number负责维护关系
+    @OneToMany(targetEntity = Number.class, cascade = CascadeType.ALL, mappedBy = "calculator")
     public List<Number> getNumbers() {
         return numbers;
     }
@@ -34,6 +38,12 @@ public class Calculator {
     @OneToOne(targetEntity = Goods.class, cascade = CascadeType.ALL, optional = false)
     public Goods getGoods() {
         return goods;
+    }
+
+    // Lucky负责维护关系
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "calculator", targetEntity = Lucky.class)
+    public Lucky getLucky() {
+        return lucky;
     }
 
     public String getNumA() {
@@ -54,6 +64,10 @@ public class Calculator {
 
     public void setNumbers(List<Number> numbers) {
         this.numbers = numbers;
+    }
+
+    public void setLucky(Lucky lucky) {
+        this.lucky = lucky;
     }
 
     public void setGoods(Goods goods) {

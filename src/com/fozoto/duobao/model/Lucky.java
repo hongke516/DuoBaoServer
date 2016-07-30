@@ -3,6 +3,7 @@ package com.fozoto.duobao.model;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 夺宝幸运
@@ -10,12 +11,12 @@ import javax.persistence.*;
  */
 @Entity(name = "Lucky")
 @Scope("prototype")
-public class Lucky {
+public class Lucky implements Serializable{
 
     private int id;             // 主键
     private Issue issue;        // 哪一期
     private User user;          // 幸运的用户
-    private Number number;      // 幸运号码
+    private Calculator calculator;      // 幸运号码在计算结果中产生
     private Goods goods;        // 幸运的商品
     private String time;        // 揭晓时间
 
@@ -35,9 +36,9 @@ public class Lucky {
         return user;
     }
 
-    @OneToOne(targetEntity = Number.class, cascade = CascadeType.ALL, optional = false)
-    public Number getNumber() {
-        return number;
+    @OneToOne(targetEntity = Calculator.class, cascade = CascadeType.ALL, optional = false)
+    public Calculator getCalculator() {
+        return calculator;
     }
 
     public String getTime() {
@@ -65,8 +66,8 @@ public class Lucky {
         this.user = user;
     }
 
-    public void setNumber(Number number) {
-        this.number = number;
+    public void setCalculator(Calculator calculator) {
+        this.calculator = calculator;
     }
 
     public void setTime(String time) {

@@ -3,6 +3,7 @@ package com.fozoto.duobao.model;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Entity(name = "Issue")
 @Scope("prototype")
-public class Issue {
+public class Issue implements Serializable{
     private int id;             // 夺宝第几期
     private Goods goods;        // 这期夺宝对应的商品
     private int done;           // 本期已经被购买的人次

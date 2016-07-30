@@ -3,6 +3,7 @@ package com.fozoto.duobao.model;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 商品的形状描述图片，用以用户滑动查看商品的外观
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity(name = "Shape")
 @Scope("prototype")
-public class Shape {
+public class Shape implements Serializable{
 
     private int id;             // 主键
     private String image;       // 图片地址

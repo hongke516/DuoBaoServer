@@ -3,6 +3,7 @@ package com.fozoto.duobao.model;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Entity(name = "Goods")
 @Scope("prototype")
-public class Goods {
+public class Goods implements Serializable{
 
     private int id;         // 主键
     private int per;        // 每份多少人次

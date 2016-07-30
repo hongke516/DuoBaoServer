@@ -29,7 +29,12 @@
       </facet>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/web/WEB-INF/dispatcher-servlet.xml</file>
+          <file>file://$MODULE_DIR$/web/WEB-INF/applicationContext.xml</file>
+        </fileset>
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
@@ -42,5 +47,7 @@
     <orderEntry type="library" name="Hibernate-4.3.11" level="application" />
     <orderEntry type="library" name="Struts-2.3.24" level="application" />
     <orderEntry type="library" name="Spring-4.2.4" level="application" />
+    <orderEntry type="library" name="s2shLib" level="application" />
+    <orderEntry type="library" name="servlet-api" level="project" />
   </component>
 </module>

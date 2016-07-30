@@ -3,6 +3,7 @@ package com.fozoto.duobao.model;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 商品的详细描述
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity(name = "Detail")
 @Scope("prototype")
-public class Detail {
+public class Detail implements Serializable{
 
     private int id;             // 主键
     private String image;       // 图片地址

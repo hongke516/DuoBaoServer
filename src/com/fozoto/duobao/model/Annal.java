@@ -3,6 +3,7 @@ package com.fozoto.duobao.model;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 夺宝记录
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity(name = "Annal")
 @Scope("prototype")
-public class Annal {
+public class Annal implements Serializable{
 
     private int id;             // 主键
     private Issue issue;        // 第几期
