@@ -15,7 +15,7 @@ public class Annal implements Serializable{
 
     private int id;             // 主键
     private Issue issue;        // 第几期
-    private User user;          // 本条记录所对应的用户
+    private Gamester gamester;          // 本条记录所对应的用户
     private Number number;      // 本条记录的夺宝号码
     private Goods goods;        // 本条记录的商品
 
@@ -25,14 +25,14 @@ public class Annal implements Serializable{
         return id;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Issue.class, optional = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Issue.class, optional = false)
     public Issue getIssue() {
         return issue;
     }
 
-    @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL, optional = false)
-    public User getUser() {
-        return user;
+    @ManyToOne(targetEntity = Gamester.class, cascade = CascadeType.REFRESH, optional = false)
+    public Gamester getGamester() {
+        return gamester;
     }
 
     @OneToOne(targetEntity = Number.class, cascade = CascadeType.ALL, optional = false)
@@ -40,7 +40,7 @@ public class Annal implements Serializable{
         return number;
     }
 
-    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.REFRESH, optional = false)
     public Goods getGoods() {
         return goods;
     }
@@ -53,8 +53,8 @@ public class Annal implements Serializable{
         this.issue = issue;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setGamester(Gamester gamester) {
+        this.gamester = gamester;
     }
 
     public void setNumber(Number number) {

@@ -69,9 +69,7 @@ public class LotteryJob{
             } else {
                 isNew = false;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JsonSyntaxException e) {
+        }  catch (Exception e) {
             System.err.println("出现错误了");
             lottery = new Lottery();
             lottery.setExpect(nextExpect);

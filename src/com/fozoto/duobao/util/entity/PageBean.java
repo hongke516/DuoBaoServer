@@ -1,4 +1,4 @@
-package com.fozoto.duobao.model;
+package com.fozoto.duobao.util.entity;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by qingyan on 16-2-8.
  * 分页查询辅助类
  */
-@Component("pageBean")
+@Component("PageBean")
 @Scope("prototype")
 public class PageBean<T> implements Serializable {
 
@@ -27,7 +27,7 @@ public class PageBean<T> implements Serializable {
     /**
      * 每页显示数量
      */
-    private int pageSize=6;
+    private int pageSize=10;
 
     /**
      * 总记录数
@@ -43,11 +43,6 @@ public class PageBean<T> implements Serializable {
      * 当前页的结果集
      */
     private List<T> queryResultList;
-
-    @Override
-    public String toString() {
-        return "PageBean:{currentPage="+currentPage+", pageSize="+pageSize+", allRows="+allRows+", allPage="+allPage+"}";
-    }
 
     public int getPageSize() {
         return pageSize;
@@ -87,5 +82,15 @@ public class PageBean<T> implements Serializable {
 
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
+    }
+
+    @Override
+    public String toString() {
+        return "PageBean{" +
+                "currentPage=" + currentPage +
+                ", pageSize=" + pageSize +
+                ", allRows=" + allRows +
+                ", allPage=" + allPage +
+                '}';
     }
 }

@@ -1,9 +1,7 @@
 package com.fozoto.duobao.service.impl;
 
-import com.fozoto.duobao.dao.IUserDAO;
-import com.fozoto.duobao.model.User;
+import com.fozoto.duobao.model.Gamester;
 import com.fozoto.duobao.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("UserService")
 @Transactional
 @Scope("prototype")
-public class UserService extends BaseService<User> implements IUserService {
+public class UserService extends BaseService<Gamester> implements IUserService {
 
-    @Autowired
-    private IUserDAO userDAO;
+//    @Autowired
+//    private IUserDAO userDAO;
 }

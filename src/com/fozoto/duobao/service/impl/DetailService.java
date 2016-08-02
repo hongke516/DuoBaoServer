@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("DetailService")
 @Transactional
 @Scope("prototype")
-public class DetailService extends BaseService<Detail> implements IDetailService {
+public class DetailService extends HelpService<Detail> implements IDetailService {
 
     @Autowired
     private IDetailDAO detailDAO;

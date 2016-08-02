@@ -1,6 +1,6 @@
 package com.fozoto.duobao.dao;
 
-import com.fozoto.duobao.model.PageBean;
+import com.fozoto.duobao.util.entity.PageBean;
 
 import java.util.LinkedHashMap;
 import java.util.List;

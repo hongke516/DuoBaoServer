@@ -1,5 +1,7 @@
 package com.fozoto.duobao.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.google.gson.annotations.Expose;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
@@ -14,21 +16,45 @@ import java.util.List;
 @Scope("prototype")
 public class Goods implements Serializable{
 
+    @Expose
     private int id;         // 主键
+    @Expose
     private int per;        // 每份多少人次
+    @Expose
     private int total;      // 本期商品总需人次
+    @Expose
     private int price;      // 商品价格 price = per * total
-    private String trait;   // 本期商品的额外描述,如十元商品、百元商品、海购商品等
+    @Expose
+    private String trait;   // 本期商品的额外描述,如十元商品、百元商品、海购商品，这里是图片地址等
+    @Expose
     private String intro;   // 文字介绍
-    private String remind;   // 额外的红字提醒
+    @Expose
+    private String remind;  // 额外的红字提醒
+    @Expose
     private String image;   // 商品的图片
+    @Expose
+    private String explains; // 重要说明
+    @Expose
+    private String available;    // 该商品是否参与夺宝(new/old)
+    @Expose
+    private String time;    // 商品创建时间
+    @Expose
+    private String retime;  // 商品重新参与夺宝的时间
 
+    @JSONField(serialize=false)
     private List<Lucky> luckies;    // 商品幸运的号码
+    @JSONField(serialize=false)
     private List<Number> numbers;   // 商品所有的夺宝号码
+    @JSONField(serialize=false)
     private List<Detail> details;   // 商品的图片描述详情
+    @JSONField(serialize=false)
     private List<Shape> shapes;     // 商品的形状,用以向用户展示商品
+    @JSONField(serialize=false)
     private Calculator calculator;  // 本商品的计算详情
+    @JSONField(serialize=false)
     private List<Annal> annals;     // 本商品所有夺宝记录
+    @JSONField(serialize=false)
+    private List<Issue> issues;     // 本商品的期数
 
 
     @Id
@@ -53,12 +79,19 @@ public class Goods implements Serializable{
         return trait;
     }
 
+    @Column(columnDefinition = "TEXT")
     public String getIntro() {
         return intro;
     }
 
+    @Column(columnDefinition = "TEXT")
     public String getRemind() {
         return remind;
+    }
+
+    @Column(columnDefinition = "TEXT")
+    public String getExplains() {
+        return explains;
     }
 
     public String getImage() {
@@ -99,6 +132,36 @@ public class Goods implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Annal.class, mappedBy = "goods")
     public List<Annal> getAnnals() {
         return annals;
+    }
+
+    // Issue负责维护关系
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Issue.class, mappedBy = "goods")
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    public String getAvailable() {
+        return available;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getRetime() {
+        return retime;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setRetime(String retime) {
+        this.retime = retime;
+    }
+
+    public void setAvailable(String available) {
+        this.available = available;
     }
 
     public void setAnnals(List<Annal> annals) {
@@ -157,6 +220,14 @@ public class Goods implements Serializable{
         this.image = image;
     }
 
+    public void setExplains(String explains) {
+        this.explains = explains;
+    }
+
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -168,7 +239,10 @@ public class Goods implements Serializable{
                 ", intro='" + intro + '\'' +
                 ", remind='" + remind + '\'' +
                 ", image='" + image + '\'' +
+                ", explains='" + explains + '\'' +
+                ", available='" + available + '\'' +
+                ", time='" + time + '\'' +
+                ", retime='" + retime + '\'' +
                 '}';
     }
-
 }

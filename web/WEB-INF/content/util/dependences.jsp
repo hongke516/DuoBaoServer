@@ -11,13 +11,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,
-    initial-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+    initial-scale=1.0, maximum-scale=1.0,gamester-scalable=no" />
 <%--360 and baidu--%>
 <meta name="renderer" content="webkit" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<%@taglib prefix="s" uri="/struts-tags" %>
+
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/fozoto.png"/>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.goup.min.js"></script>
 

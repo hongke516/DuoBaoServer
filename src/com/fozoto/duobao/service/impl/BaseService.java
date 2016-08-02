@@ -1,7 +1,7 @@
 package com.fozoto.duobao.service.impl;
 
 import com.fozoto.duobao.dao.IBaseDAO;
-import com.fozoto.duobao.model.PageBean;
+import com.fozoto.duobao.util.entity.PageBean;
 import com.fozoto.duobao.service.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

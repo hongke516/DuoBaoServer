@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("ShapeService")
 @Transactional
 @Scope("prototype")
-public class ShapeService extends BaseService<Shape> implements IShapeService {
+public class ShapeService extends HelpService<Shape> implements IShapeService {
 
     @Autowired
     private IShapeDAO shapeDAO;

@@ -1,5 +1,6 @@
 package com.fozoto.duobao.model;
 
+import com.google.gson.annotations.Expose;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
@@ -13,7 +14,9 @@ import java.io.Serializable;
 @Scope("prototype")
 public class Shape implements Serializable{
 
+    @Expose
     private int id;             // 主键
+    @Expose
     private String image;       // 图片地址
     // 外键（多对一，外键放在多的一方）
     private Goods goods;        // 图片所属商品
@@ -28,7 +31,7 @@ public class Shape implements Serializable{
         return image;
     }
 
-    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.REFRESH, optional = false)
     public Goods getGoods() {
         return goods;
     }

@@ -28,7 +28,7 @@ public class Detail implements Serializable{
         return image;
     }
 
-    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.REFRESH, optional = false)
     public Goods getGoods() {
         return goods;
     }

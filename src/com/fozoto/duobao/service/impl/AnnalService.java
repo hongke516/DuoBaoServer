@@ -1,5 +1,6 @@
 package com.fozoto.duobao.service.impl;
 
+import com.fozoto.duobao.dao.IAnnalDAO;
 import com.fozoto.duobao.model.Annal;
 import com.fozoto.duobao.service.IAnnalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Scope("prototype")
 public class AnnalService extends BaseService<Annal> implements IAnnalService {
     @Autowired
-    private IAnnalService annalService;
+    private IAnnalDAO annalDAO;
 
 }

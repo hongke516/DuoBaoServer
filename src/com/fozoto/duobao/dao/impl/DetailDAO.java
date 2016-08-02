@@ -12,5 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 @Scope("prototype")
-public class DetailDAO extends BaseDAO<Detail> implements IDetailDAO {
+public class DetailDAO extends HelpDAO<Detail> implements IDetailDAO {
+
 }

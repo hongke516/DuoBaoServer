@@ -1,7 +1,7 @@
 package com.fozoto.duobao.dao.impl;
 
 import com.fozoto.duobao.dao.IUserDAO;
-import com.fozoto.duobao.model.User;
+import com.fozoto.duobao.model.Gamester;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,5 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 @Scope("prototype")
-public class UserDAO extends BaseDAO<User> implements IUserDAO{
+public class UserDAO extends BaseDAO<Gamester> implements IUserDAO{
 }

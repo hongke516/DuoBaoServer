@@ -7,26 +7,55 @@
 <struts>
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="true" />
+    <constant name="struts.convention.classes.reload" value="true"/>
 
     <package name="default" namespace="/" extends="struts-default">
 
-        <default-action-ref name="index" />
+        <!--<default-action-ref name="index" />-->
 
         <global-results>
-            <result name="error">/WEB-INF/content/error/error.jsp</result>
+            <result name="error">/WEB-INF/content/util/error.jsp</result>
         </global-results>
 
         <global-exception-mappings>
             <exception-mapping exception="java.lang.Exception" result="error"/>
         </global-exception-mappings>
 
-        <action name="index">
+        <!--<action name="index">
             <result type="redirectAction">
                 <param name="actionName">HelloWorld</param>
                 <param name="namespace">/example</param>
             </result>
-        </action>
+        </action>-->
+
+       <!-- <action name="go_*">
+            <result>
+                /WEB-INF/content/{1}.jsp
+            </result>
+        </action>-->
+
+        <!--<action name="*_*" class="com.fozoto.duobao.action.{2}Action" method="{1}">
+            <result>
+                /WEB-INF/content/util/success.jsp
+            </result>
+            <result name="error">
+                /WEB-INF/content/util/error.jsp
+            </result>
+            <result name="input">
+                /WEB-INF/content/util/input.jsp
+            </result>
+        </action>-->
     </package>
+    
+    <!--<package name="ajax" namespace="/ajax" extends="json-default">
+        <action name="*_*" class="{1}Action" method="{2}">
+            <result type="json">
+                <param name="root">
+                    goods
+                </param>
+            </result>
+        </action>
+    </package>-->
 
     <!--<include file="example.xml"/>-->
 </struts>

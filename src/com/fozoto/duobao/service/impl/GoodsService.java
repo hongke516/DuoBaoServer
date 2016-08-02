@@ -1,5 +1,6 @@
 package com.fozoto.duobao.service.impl;
 
+import com.fozoto.duobao.dao.IGoodsDAO;
 import com.fozoto.duobao.model.Goods;
 import com.fozoto.duobao.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,5 @@ import org.springframework.transaction.annotation.Transactional;
 public class GoodsService extends BaseService<Goods> implements IGoodsService {
 
     @Autowired
-    private IGoodsService goodsService;
+    private IGoodsDAO goodsDAO;
 }

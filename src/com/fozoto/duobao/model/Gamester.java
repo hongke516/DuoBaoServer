@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Entity(name = "User")
 @Scope("prototype")
-public class User implements Serializable{
+public class Gamester implements Serializable{
     private int id;                 // 主键
     private String ip;              // ip地址
     private String account;         // 账号
@@ -21,6 +21,9 @@ public class User implements Serializable{
     private String phone;           // 手机号
     private String portrait;        // 头像
     private String time;            // 注册时间
+    private int stone;              // 宝石
+    private int money;              // 余额
+
 
     private List<Number> numbers;   // 用户购买的夺宝号码
     private List<Lucky> luckies;    // 用户的幸运商品
@@ -56,20 +59,28 @@ public class User implements Serializable{
         return portrait;
     }
 
+    public int getStone() {
+        return stone;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
     // Number负责维护与用户的关系
-    @OneToMany(targetEntity = Number.class, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Number.class, mappedBy = "gamester", cascade = CascadeType.ALL)
     public List<Number> getNumbers() {
         return numbers;
     }
 
     // Lucky负责维护与用户的关系
-    @OneToMany(targetEntity = Lucky.class, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Lucky.class, mappedBy = "gamester", cascade = CascadeType.ALL)
     public List<Lucky> getLuckies() {
         return luckies;
     }
 
     // Annal负责维护关系
-    @OneToMany(targetEntity = Annal.class, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(targetEntity = Annal.class, cascade = CascadeType.ALL, mappedBy = "gamester")
     public List<Annal> getAnnals() {
         return annals;
     }
@@ -122,9 +133,17 @@ public class User implements Serializable{
         this.luckies = luckies;
     }
 
+    public void setStone(int stone) {
+        this.stone = stone;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "Gamester{" +
                 "id=" + id +
                 ", ip='" + ip + '\'' +
                 ", account='" + account + '\'' +
@@ -133,6 +152,8 @@ public class User implements Serializable{
                 ", phone='" + phone + '\'' +
                 ", portrait='" + portrait + '\'' +
                 ", time='" + time + '\'' +
+                ", stone=" + stone +
+                ", money=" + money +
                 '}';
     }
 }

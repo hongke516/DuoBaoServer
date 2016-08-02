@@ -16,7 +16,7 @@ public class Number implements Serializable{
     private String num;         // 夺宝号码
     private Issue issue;        // 夺宝号码属于哪期
     private Goods goods;        // 该夺宝号码所属商品
-    private User user;          // 该夺宝号码属于谁
+    private Gamester gamester;          // 该夺宝号码属于谁
     private String time;        // 该夺宝号码被购买时产生的时间
 
     private Calculator calculator;  // 计算详情
@@ -32,26 +32,26 @@ public class Number implements Serializable{
         return num;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, targetEntity = Issue.class)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false, targetEntity = Issue.class)
     public Issue getIssue() {
         return issue;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, targetEntity = User.class)
-    public User getUser() {
-        return user;
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false, targetEntity = Gamester.class)
+    public Gamester getGamester() {
+        return gamester;
     }
 
     public String getTime() {
         return time;
     }
 
-    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.REFRESH)
     public Goods getGoods() {
         return goods;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Calculator.class)
+    @ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Calculator.class)
     public Calculator getCalculator() {
         return calculator;
     }
@@ -86,8 +86,8 @@ public class Number implements Serializable{
         this.issue = issue;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setGamester(Gamester gamester) {
+        this.gamester = gamester;
     }
 
     public void setTime(String time) {

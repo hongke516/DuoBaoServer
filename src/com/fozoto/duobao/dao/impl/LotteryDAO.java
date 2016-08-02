@@ -24,8 +24,8 @@ public class LotteryDAO extends BaseDAO<Lottery> implements ILotteryDAO {
      */
     @Override
     public Lottery get(Class<Lottery> clazz, String expect) {
-        String entityname= getEntityName(clazz);
-        Query query=em.createQuery("from "+entityname+" where "+Lottery.EXPECT+"='"+expect+"'");
+        String entityName= getEntityName(clazz);
+        Query query=em.createQuery("from "+entityName+" where "+Lottery.EXPECT+"='"+expect+"'");
         if (query.getResultList().size() == 0) {
             return null;
         }

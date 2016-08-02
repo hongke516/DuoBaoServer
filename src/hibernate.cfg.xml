@@ -22,15 +22,15 @@
         
         <!-- Names the annotated entity class -->
         <!-- <mapping class="org.hibernate.tutorial.annotations.Event"/> -->
+		<mapping class="com.fozoto.duobao.model.Goods"/>
 		<mapping class="com.fozoto.duobao.model.Annal"/>
 		<mapping class="com.fozoto.duobao.model.Calculator"/>
 		<mapping class="com.fozoto.duobao.model.Detail"/>
-		<mapping class="com.fozoto.duobao.model.Goods"/>
 		<mapping class="com.fozoto.duobao.model.Issue"/>
 		<mapping class="com.fozoto.duobao.model.Lucky"/>
 		<mapping class="com.fozoto.duobao.model.Number"/>
 		<mapping class="com.fozoto.duobao.model.Shape"/>
-        <mapping class="com.fozoto.duobao.model.User"/>
+        <mapping class="com.fozoto.duobao.model.Gamester"/>
 		<mapping class="com.fozoto.duobao.model.Lottery"/>
 	</session-factory>
 </hibernate-configuration>

@@ -12,5 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 @Scope("prototype")
-public class ShapeDAO extends BaseDAO<Shape> implements IShapeDAO {
+public class ShapeDAO extends HelpDAO<Shape> implements IShapeDAO {
 }
