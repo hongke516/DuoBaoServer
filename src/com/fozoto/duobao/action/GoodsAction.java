@@ -3,9 +3,11 @@ package com.fozoto.duobao.action;
 import com.fozoto.duobao.core.util.TimeUtil;
 import com.fozoto.duobao.model.Detail;
 import com.fozoto.duobao.model.Goods;
+import com.fozoto.duobao.model.Issue;
 import com.fozoto.duobao.model.Shape;
 import com.fozoto.duobao.service.IDetailService;
 import com.fozoto.duobao.service.IGoodsService;
+import com.fozoto.duobao.service.IIssueService;
 import com.fozoto.duobao.service.IShapeService;
 import com.fozoto.duobao.util.entity.PageBean;
 import com.fozoto.duobao.util.entity.PromptInfo;
@@ -42,8 +44,6 @@ public class GoodsAction extends ActionSupport {
 
     public Goods goods;
 
-    public ModifyGoods modifyGoods;
-
     // 商品id，用以与前台交互
     private int goodsId;
 
@@ -58,6 +58,9 @@ public class GoodsAction extends ActionSupport {
 
     @Autowired
     public PageBean<Goods> goodsPage;
+
+    @Resource(name = "IssueService")
+    private IIssueService issueService;
 
     // 前台输入的商品滚动图片,以换行分割
     public String inputShapes;
@@ -112,6 +115,9 @@ public class GoodsAction extends ActionSupport {
                                 if (shapeService.add(shape))
                                     // 保存商品滚动图片成功后, 返回给前台查看保存结果
                                     shapes.add(shape);
+                                else {
+                                    return ERROR;
+                                }
                             } else {
                                 promptInfo.setTitle("输入图片地址太长!");
                                 promptInfo.setMessage("输入图片地址大于255个字节,请重新输入!");
@@ -131,8 +137,12 @@ public class GoodsAction extends ActionSupport {
                                 detail.setGoods(goods);
                                 detail.setImage(image);
                                 // 保存商品详情图片到数据库
-                                if (detailService.add(detail))
+                                if (detailService.add(detail)) {
                                     details.add(detail);
+                                } else {
+                                    return ERROR;
+                                }
+
                             } else {
                                 promptInfo.setTitle("输入图片地址太长!");
                                 promptInfo.setMessage("输入图片地址大于255个字节,请重新输入!");
@@ -141,6 +151,17 @@ public class GoodsAction extends ActionSupport {
                     }
                     promptInfo.setTitle("商品添加成功！");
                     goodsId = goods.getId();
+
+                    // 商品保存后,该商品的夺宝就开始了
+                    Issue issue = new Issue();
+                    issue.setGoods(goods);
+                    issue.setStart(TimeUtil.getTime().toString());
+                    issue.setOver("false");
+                    issue.setDone(0);
+                    if (!issueService.add(issue)) {
+                        return ERROR;
+                    }
+
                     return SUCCESS;
                 } else
                     return ERROR;
@@ -156,20 +177,17 @@ public class GoodsAction extends ActionSupport {
             results = @Result(name = SUCCESS, location = "/WEB-INF/content/goods-detail.jsp")
     )
     public String detail() throws Exception {
-        if (goodsId > 0 && goodsId < 2147483647) {
-            if (goods == null) {
-                goods = goodsService.get(Goods.class, goodsId);
+        if (checkInt(goodsId)) {
+            goods = goodsService.get(Goods.class, goodsId);
+            if (goods != null) {
+                shapes = shapeService.getByGoods(Shape.class, goodsId);
+                details = detailService.getByGoods(Detail.class, goodsId);
+                promptInfo.setTitle("商品查询结果");
+                if (shapes != null && details != null) {
+                    return SUCCESS;
+                }
             }
-            if (shapes == null) {
-                shapes = shapeService.getByGoods(Shape.class, goods);
-            }
-            if (details == null) {
-                details = detailService.getByGoods(Detail.class, goods);
-            }
-            promptInfo.setTitle("商品查询结果");
-            if (goods != null && shapes != null && details != null) {
-                return SUCCESS;
-            }
+
         }
         return ERROR;
     }
@@ -190,6 +208,7 @@ public class GoodsAction extends ActionSupport {
             if (goods != null) {
                 Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                 result = gson.toJson(goods);
+                // log.debug(result);
                 if (result != null) {
                     return SUCCESS;
                 }
@@ -231,9 +250,8 @@ public class GoodsAction extends ActionSupport {
 //    @Action(value = "page", results = @Result(location = ))
     @Action(value = "page", results = @Result(location = "/WEB-INF/content/goods-manage.jsp"))
     public String page() throws Exception {
-        System.out.println("进入page了page=" + page + ",size=" + size);
-        if (page > 0 && size > 0) {
-//            goodsPage = goodsService.getPaginationService(Goods.class, page, size, null, null);
+        log.debug("进入page了page=" + page + ",size=" + size);
+        if (checkInt(page) && checkInt(size)) {
             goodsPage = goodsService.getPaginationService(Goods.class, page, size, null, null);
             if (goodsPage != null) {
                 log.debug("总共有" + goodsPage.getAllRows() + "条记录");
@@ -256,10 +274,9 @@ public class GoodsAction extends ActionSupport {
     @Action(value = "delete", results =
     @Result(location = "/goods/page", type = "redirect"))
     public String delete() throws Exception {
-        System.out.println("delete --> goodsId=" + goodsId);
         boolean flag = goodsService.delete(Goods.class, goodsId);
         if (flag) {
-            System.out.println("delete()删除成功了");
+            log.debug("删除"+goodsId+"成功了");
             return SUCCESS;
         }
         return ERROR;
@@ -269,24 +286,25 @@ public class GoodsAction extends ActionSupport {
             @Result(location = "/goods/page", type = "redirect")
     })
     public String modify() {
-        if (modifyGoods != null) {
+        if (goods != null) {
             try {
-                log.debug("需要修改的商品id为:" + modifyGoods.getId());
-                Goods updateGoods = goodsService.get(Goods.class, modifyGoods.getId());
-
-                updateGoods.setPer(modifyGoods.getPer());
-                updateGoods.setTotal(modifyGoods.getTotal());
-                updateGoods.setPrice(modifyGoods.getPrice());
-                updateGoods.setRetime(TimeUtil.getTime().toString());
-                updateGoods.setAvailable(modifyGoods.getAvailable());
-//                modifyGoods.setTrait(goods.getTrait());
-//                modifyGoods.setIntro(goods.getIntro());
-//                modifyGoods.setRemind(goods.getRemind());
-//                modifyGoods.setExplains(goods.getExplains());
-//                modifyGoods.setTime(goods.getTime());
-//                modifyGoods.setImage(goods.getImage());
-                goodsService.update(updateGoods);
-                return SUCCESS;
+                log.debug("需要修改的商品id为:" + goods.getId());
+                Goods updateGoods = goodsService.get(Goods.class, goods.getId());
+                if (updateGoods != null) {
+                    updateGoods.setPer(goods.getPer());
+                    updateGoods.setTotal(goods.getTotal());
+                    updateGoods.setPrice(goods.getPrice());
+                    updateGoods.setCate(goods.getCate());
+                    // 只有为新品时才更新重返夺宝时间
+                    if (!updateGoods.getAvailable().equals(goods.getAvailable())) {
+                        updateGoods.setAvailable(goods.getAvailable());
+                        updateGoods.setRetime(TimeUtil.getTime().toString());
+                    }
+                    boolean flag = goodsService.update(updateGoods);
+                    if (flag) {
+                        return SUCCESS;
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -301,11 +319,13 @@ public class GoodsAction extends ActionSupport {
     public String update() {
         if (goodsId > 0 && goodsId < 2147483647) {
             goods = goodsService.get(Goods.class, goodsId);
-            shapes = shapeService.getByGoods(Shape.class, goods);
-            details = detailService.getByGoods(Detail.class, goods);
-            line = "\n";
             if (goods != null) {
-                return SUCCESS;
+                shapes = shapeService.getByGoods(Shape.class, goodsId);
+                details = detailService.getByGoods(Detail.class, goodsId);
+                line = "\n";
+                if (shapes != null && details!=null) {
+                    return SUCCESS;
+                }
             }
         }
         return ERROR;
@@ -318,34 +338,30 @@ public class GoodsAction extends ActionSupport {
         if (goods!=null) {
             log.debug("需要更新的商品id为:"+ goods.getId());
             Goods alterGoods = goodsService.get(Goods.class, goods.getId());
-            alterGoods.setPer(goods.getPer());
-            alterGoods.setTotal(goods.getTotal());
-            alterGoods.setPrice(goods.getPrice());
-            alterGoods.setRetime(TimeUtil.getTime().toString());
-            alterGoods.setAvailable(goods.getAvailable());
-            alterGoods.setTrait(goods.getTrait());
-            alterGoods.setIntro(goods.getIntro());
-            alterGoods.setRemind(goods.getRemind());
-            alterGoods.setExplains(goods.getExplains());
-            // 首次夺宝时间不变
-            alterGoods.setTime(alterGoods.getTime());
-            alterGoods.setImage(goods.getImage());
-            try {
-                goodsService.update(alterGoods);
-                return SUCCESS;
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (alterGoods != null) {
+                alterGoods.setPer(goods.getPer());
+                alterGoods.setTotal(goods.getTotal());
+                alterGoods.setPrice(goods.getPrice());
+                alterGoods.setRetime(TimeUtil.getTime().toString());
+                alterGoods.setAvailable(goods.getAvailable());
+                alterGoods.setTrait(goods.getTrait());
+                alterGoods.setIntro(goods.getIntro());
+                alterGoods.setRemind(goods.getRemind());
+                alterGoods.setExplains(goods.getExplains());
+                // 首次夺宝时间不变
+                alterGoods.setTime(alterGoods.getTime());
+                alterGoods.setImage(goods.getImage());
+                try {
+                    boolean flag = goodsService.update(alterGoods);
+                    if (flag) {
+                        return SUCCESS;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return ERROR;
-    }
-
-    public ModifyGoods getModifyGoods() {
-        return modifyGoods;
-    }
-
-    public void setModifyGoods(ModifyGoods modifyGoods) {
-        this.modifyGoods = modifyGoods;
     }
 
     public String getLine() {
@@ -356,61 +372,8 @@ public class GoodsAction extends ActionSupport {
         this.line = line;
     }
 
-    private class ModifyGoods {
-        private int id;         // 主键
-        private int per;        // 每份多少人次
-        private int total;      // 本期商品总需人次
-        private int price;      // 商品价格 price = per * total
-        private String available;    // 该商品是否参与夺宝(true/false)
-        private String retime;  // 商品重新参与夺宝的时间
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public int getPer() {
-            return per;
-        }
-
-        public void setPer(int per) {
-            this.per = per;
-        }
-
-        public int getTotal() {
-            return total;
-        }
-
-        public void setTotal(int total) {
-            this.total = total;
-        }
-
-        public int getPrice() {
-            return price;
-        }
-
-        public void setPrice(int price) {
-            this.price = price;
-        }
-
-        public String getAvailable() {
-            return available;
-        }
-
-        public void setAvailable(String available) {
-            this.available = available;
-        }
-
-        public String getRetime() {
-            return retime;
-        }
-
-        public void setRetime(String retime) {
-            this.retime = retime;
-        }
+    private boolean checkInt(int i) {
+        return i > 0 && i < 2147483647;
     }
 
     /**

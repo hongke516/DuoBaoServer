@@ -6,21 +6,15 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * 夺宝号码
- * Created by qingyan on 16-7-27.
+ * Created by qingyan on 16-8-4.
  */
 @Entity(name = "Number")
 @Scope("prototype")
-public class Number implements Serializable{
-    private int id;             // 主键
-    private String num;         // 夺宝号码
-    private Issue issue;        // 夺宝号码属于哪期
-    private Goods goods;        // 该夺宝号码所属商品
-    private Gamester gamester;          // 该夺宝号码属于谁
-    private String time;        // 该夺宝号码被购买时产生的时间
-
-    private Calculator calculator;  // 计算详情
-    private Annal annal;        // 夺宝记录
+public class Number implements Serializable {
+    private int id;
+    private long num;
+    private Issue issue;
+    private Goods goods;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,57 +22,25 @@ public class Number implements Serializable{
         return id;
     }
 
-    public String getNum() {
+    public long getNum() {
         return num;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false, targetEntity = Issue.class)
+    @ManyToOne(targetEntity = Issue.class, cascade = CascadeType.REFRESH, optional = false)
     public Issue getIssue() {
         return issue;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false, targetEntity = Gamester.class)
-    public Gamester getGamester() {
-        return gamester;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.REFRESH)
+    @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.REFRESH, optional = false)
     public Goods getGoods() {
         return goods;
-    }
-
-    @ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Calculator.class)
-    public Calculator getCalculator() {
-        return calculator;
-    }
-
-    // Annal负责维护关系
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "number", targetEntity = Annal.class)
-    public Annal getAnnal() {
-        return annal;
-    }
-
-    public void setAnnal(Annal annal) {
-        this.annal = annal;
-    }
-
-    public void setCalculator(Calculator calculator) {
-        this.calculator = calculator;
-    }
-
-    public void setGoods(Goods goods) {
-        this.goods = goods;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setNum(String num) {
+    public void setNum(long num) {
         this.num = num;
     }
 
@@ -86,21 +48,7 @@ public class Number implements Serializable{
         this.issue = issue;
     }
 
-    public void setGamester(Gamester gamester) {
-        this.gamester = gamester;
+    public void setGoods(Goods goods) {
+        this.goods = goods;
     }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    @Override
-    public String toString() {
-        return "Number{" +
-                "id=" + id +
-                ", num='" + num + '\'' +
-                ", time='" + time + '\'' +
-                '}';
-    }
-
 }

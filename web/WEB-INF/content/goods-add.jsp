@@ -46,9 +46,27 @@
                         <ul class="list-group">
                                 <%-- intro --%>
                             <li class="list-group-item">
-                                <label for="goodsIntro">名称</label>
-                                <input name="goods.intro" type="text" class="form-control" id="goodsIntro"
-                                       placeholder="请输入商品名称"/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-lg-9">
+                                        <label for="goodsIntro">名称</label>
+                                        <input name="goods.intro" type="text" class="form-control" id="goodsIntro"
+                                               placeholder="请输入商品名称"/>
+                                    </div>
+                                    <div class="col-xs-12 col-lg-3">
+                                        <label for="goodsCate">商品分类</label>
+                                        <select class="form-control" name="goods.cate" id="goodsCate">
+                                            <option class="form-select-button" value="优选商品">优选商品</option>
+                                            <option class="form-select-button" value="手机平板">手机平板</option>
+                                            <option class="form-select-button" value="电脑办公">电脑办公</option>
+                                            <option class="form-select-button" value="数码影音">数码影音</option>
+                                            <option class="form-select-button" value="女性时尚">女性时尚</option>
+                                            <option class="form-select-button" value="美食天地">美食天地</option>
+                                            <option class="form-select-button" value="潮流新品">潮流新品</option>
+                                            <option class="form-select-button" value="网易周边">网易周边</option>
+                                            <option class="form-select-button" value="其他商品">其他商品</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </li>
 
                                 <%-- image --%>
@@ -84,8 +102,8 @@
                                     <div class="col-xs-12 col-sm-6 col-lg-3">
                                         <label for="goodsAvailable">是否参与夺宝</label>
                                         <select class="form-control" name="goods.available" id="goodsAvailable">
-                                            <option class="form-select-button" value="new">新品</option>
-                                            <option class="form-select-button" value="old">下架</option>
+                                            <option class="form-select-button" value="新品">新品</option>
+                                            <option class="form-select-button" value="下架">下架</option>
                                         </select>
                                     </div>
                                 </div>

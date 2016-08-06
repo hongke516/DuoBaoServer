@@ -1,8 +1,8 @@
 package com.fozoto.duobao.core.job;
 
 import com.fozoto.duobao.core.util.TimeUtil;
-import com.fozoto.duobao.model.Lottery;
-import com.fozoto.duobao.service.ILotteryService;
+import com.fozoto.duobao.model.*;
+import com.fozoto.duobao.service.*;
 import com.fozoto.duobao.util.OkHttpClientManager;
 import com.fozoto.duobao.util.entity.Cqssc;
 import com.fozoto.duobao.util.entity.CqsscData;
@@ -16,7 +16,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 将重庆时时彩结果定时写入数据库
@@ -32,6 +34,21 @@ public class LotteryJob{
     private String currentCode;         // 当前中奖号码
     private String currentExpect;       // 当前时时彩期号
     private String nextExpect;          // 时时彩下一期期号
+
+    @Resource(name = "CalculatorService")
+    private ICalculatorService calculatorService;
+    @Resource(name = "IssueService")
+    private IIssueService issueService;
+    @Resource(name = "LuckyService")
+    private ILuckyService luckyService;
+    @Resource(name = "FullService")
+    private IFullService fullService;
+    @Resource(name = "GoodsService")
+    private IGoodsService goodsService;
+    @Resource(name = "AnnalService")
+    private IAnnalService annalService;
+    @Resource(name = "GamesterService")
+    private IGamesterService gamesterService;
 
     private boolean isNew;
 
@@ -80,6 +97,72 @@ public class LotteryJob{
             if (isNew) {
                 try {
                     lotteryService.add(lottery);
+                    // 数值B
+                    final long numB = Long.parseLong(lottery.getCode());
+                    List<Full> fulls = fullService.getAll(Full.class);
+                    if (fulls!=null) {
+                        new Thread(() -> {
+                            // 所有夺宝商品购买完应该存放在Full中
+                            for (Full full : fulls) {
+                                // 等待揭晓的期的id
+                                int issueId = full.getFullId();
+                                // 等待揭晓的期
+                                Issue issue = issueService.get(Issue.class, issueId);
+                                // 等待揭晓的期对应的夺宝商品
+                                Goods goods = goodsService.getByIssue(Goods.class, issueId).get(0);
+                                List<Annal> annals = annalService.getLast50Annals(goods.getId(), issueId);
+                                // 数值A,由最后50条夺宝记录产生
+                                long numA = 0;
+                                for (Annal annal : annals) {
+                                    numA += annal.getNum();
+                                }
+                                // 计算结果
+                                long resultNum = (numA+numB)%goods.getTotal()+10000001;
+                                // 幸运记录
+                                Annal luckyAnnal = annalService.getByNumAndIssue(resultNum, issueId);
+                                // 本期幸运者
+                                Gamester gamester = gamesterService.get(Gamester.class, luckyAnnal.getGamester().getId());
+
+                                // 保存计算结果
+                                Calculator calculator = new Calculator();
+                                calculator.setGoods(goods);
+                                calculator.setNumA(numA);
+                                calculator.setNumB(numB);
+                                calculator.setResult(resultNum);
+                                calculator.setIssue(issue);
+                                try {
+                                    calculatorService.add(calculator);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                // 保存幸运者
+                                Lucky lucky = new Lucky();
+                                lucky.setGoods(goods);
+                                lucky.setGamester(gamester);
+                                lucky.setIssue(issue);
+                                lucky.setTime(TimeUtil.getTime().toString());
+                                try {
+                                    luckyService.add(lucky);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                // 更新该期的状态为已完成夺宝
+                                issue.setLucky(lucky);
+                                issue.setCalculator(calculator);
+                                issue.setFinish(TimeUtil.getTime().toString());
+                                issue.setOver("true");
+                                try {
+                                    issueService.update(issue);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                // 删除full, 以后解决
+                            }
+                        }).start();
+                    }
                 } catch (Exception e) {
                     System.err.println("保存lottery失败!");
                     System.err.println(e.getMessage());

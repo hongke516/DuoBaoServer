@@ -14,9 +14,10 @@ import java.io.Serializable;
 public class Annal implements Serializable{
 
     private int id;             // 主键
+    private long num;           // 夺宝号码
+    private String time;        // 该夺宝号码被购买时产生的时间
     private Issue issue;        // 第几期
-    private Gamester gamester;          // 本条记录所对应的用户
-    private Number number;      // 本条记录的夺宝号码
+    private Gamester gamester;  // 本条记录所对应的用户
     private Goods goods;        // 本条记录的商品
 
     @Id
@@ -35,14 +36,25 @@ public class Annal implements Serializable{
         return gamester;
     }
 
-    @OneToOne(targetEntity = Number.class, cascade = CascadeType.ALL, optional = false)
-    public Number getNumber() {
-        return number;
-    }
-
     @ManyToOne(targetEntity = Goods.class, cascade = CascadeType.REFRESH, optional = false)
     public Goods getGoods() {
         return goods;
+    }
+
+    public long getNum() {
+        return num;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setNum(long num) {
+        this.num = num;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public void setId(int id) {
@@ -57,10 +69,6 @@ public class Annal implements Serializable{
         this.gamester = gamester;
     }
 
-    public void setNumber(Number number) {
-        this.number = number;
-    }
-
     public void setGoods(Goods goods) {
         this.goods = goods;
     }
@@ -69,6 +77,11 @@ public class Annal implements Serializable{
     public String toString() {
         return "Annal{" +
                 "id=" + id +
+                ", num=" + num +
+                ", time='" + time + '\'' +
+                ", issue=" + issue +
+                ", gamester=" + gamester +
+                ", goods=" + goods +
                 '}';
     }
 }

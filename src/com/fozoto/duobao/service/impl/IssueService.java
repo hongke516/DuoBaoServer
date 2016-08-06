@@ -14,8 +14,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("IssueService")
 @Transactional
 @Scope("prototype")
-public class IssueService extends BaseService<Issue> implements IIssueService {
+public class IssueService extends HelpService<Issue> implements IIssueService {
 
     @Autowired
     private IIssueDAO iIssueDAO;
+
+    /**
+     * 通过商品id查询正在进行的夺宝的期
+     * 注意只查询over=true的结果,所以才只有一个值
+     *
+     * @param goodsId 商品id
+     * @return Issue
+     */
+    @Override
+    public Issue getByGoods(int goodsId) {
+        return iIssueDAO.getByGoods(goodsId);
+    }
 }

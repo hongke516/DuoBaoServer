@@ -20,15 +20,62 @@ public class HelpDAO<T extends Serializable> extends BaseDAO<T> implements IHelp
     /**
      * 通过goodsId查询T
      *
-     * @param clazz
-     * @param goods 需要查询的商品
+     * @param clazz Issue的反射
+     * @param goodsId 需要商品的id
      * @return List<T>
      */
     @Override
-    public List<T> getByGoods(Class<T> clazz, Goods goods) {
+    public List<T> getByGoods(Class<T> clazz, int goodsId) {
         String entityName= getEntityName(clazz);
-        String sql = "from "+entityName+" where goods_id="+goods.getId();
+        String sql = "from "+entityName+" where goods_id="+goodsId;
         Query query=em.createQuery(sql);
         return query.getResultList();
+    }
+
+    /**
+     * 通过自身id和goodsId查询T
+     *
+     * @param clazz   Issue的反射
+     * @param id      T的id
+     * @param goodsId 需要商品的id
+     * @return T
+     */
+    @Override
+    public T getByGoods(Class<T> clazz, int id, int goodsId) {
+        String entityName= getEntityName(clazz);
+        String sql = "from "+entityName+" where id="+id+" and goods_id="+goodsId;
+        Query query=em.createQuery(sql);
+        return (T)query.getResultList().get(0);
+    }
+
+    /**
+     * 通过Issue的id查询T
+     *
+     * @param clazz   T
+     * @param issueId 期的id
+     * @return List<T>
+     */
+    @Override
+    public List<T> getByIssue(Class<T> clazz, int issueId) {
+        String entityName= getEntityName(clazz);
+        String sql = "from "+entityName+" where issue_id="+issueId;
+        Query query=em.createQuery(sql);
+        return query.getResultList();
+    }
+
+    /**
+     * 通过Issue的id和T的id查询T
+     *
+     * @param clazz   T
+     * @param id      T的id
+     * @param issueId 期的id
+     * @return T
+     */
+    @Override
+    public T getByIssue(Class<T> clazz, int id, int issueId) {
+        String entityName= getEntityName(clazz);
+        String sql = "from "+entityName+" where id="+id+" and issue_id="+issueId;
+        Query query=em.createQuery(sql);
+        return (T)query.getResultList().get(0);
     }
 }

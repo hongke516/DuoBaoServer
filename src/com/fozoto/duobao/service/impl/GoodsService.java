@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("GoodsService")
 @Transactional
 @Scope("prototype")
-public class GoodsService extends BaseService<Goods> implements IGoodsService {
+public class GoodsService extends HelpService<Goods> implements IGoodsService {
 
     @Autowired
     private IGoodsDAO goodsDAO;

@@ -78,13 +78,13 @@
                                     <div class="col-xs-12 col-sm-6 col-lg-3">
                                         <label for="goodsAvailable">是否参与夺宝</label>
                                         <select class="form-control" name="goods.available" id="goodsAvailable">
-                                            <s:if test="%{#request.goods.available=='new'}">
-                                                <option class="form-select-button" selected="selected" value="new">新品</option>
-                                                <option class="form-select-button" value="old">下架</option>
+                                            <s:if test="%{#request.goods.available=='新品'}">
+                                                <option class="form-select-button" selected="selected" value="新品">新品</option>
+                                                <option class="form-select-button" value="下架">下架</option>
                                             </s:if>
-                                            <s:elseif test="%{#request.goods.available=='old'}">
-                                                <option class="form-select-button" value="new">新品</option>
-                                                <option class="form-select-button" selected="selected" value="old">下架</option>
+                                            <s:elseif test="%{#request.goods.available=='下架'}">
+                                                <option class="form-select-button" value="新品">新品</option>
+                                                <option class="form-select-button" selected="selected" value="下架">下架</option>
                                             </s:elseif>
                                         </select>
                                     </div>

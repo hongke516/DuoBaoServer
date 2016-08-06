@@ -35,11 +35,13 @@ public class Goods implements Serializable{
     @Expose
     private String explains; // 重要说明
     @Expose
-    private String available;    // 该商品是否参与夺宝(new/old)
+    private String available;    // 该商品是否参与夺宝(new新品/old下架)
     @Expose
     private String time;    // 商品创建时间
     @Expose
     private String retime;  // 商品重新参与夺宝的时间
+    @Expose
+    private String cate;        // 商品所属分类
 
     @JSONField(serialize=false)
     private List<Lucky> luckies;    // 商品幸运的号码
@@ -55,7 +57,6 @@ public class Goods implements Serializable{
     private List<Annal> annals;     // 本商品所有夺宝记录
     @JSONField(serialize=false)
     private List<Issue> issues;     // 本商品的期数
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -152,6 +153,10 @@ public class Goods implements Serializable{
         return retime;
     }
 
+    public String getCate() {
+        return cate;
+    }
+
     public void setTime(String time) {
         this.time = time;
     }
@@ -228,6 +233,10 @@ public class Goods implements Serializable{
         this.issues = issues;
     }
 
+    public void setCate(String cate) {
+        this.cate = cate;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -243,6 +252,7 @@ public class Goods implements Serializable{
                 ", available='" + available + '\'' +
                 ", time='" + time + '\'' +
                 ", retime='" + retime + '\'' +
+                ", cate='" + cate + '\'' +
                 '}';
     }
 }

@@ -136,15 +136,15 @@
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
                                                         是否参与夺宝:
-                                                        <s:if test="%{#l.available=='new'}">
+                                                        <s:if test="%{#l.available=='新品'}">
                                                             <span class="text-success">新品</span>
                                                         </s:if>
-                                                        <s:elseif test="%{#l.available=='old'}">
+                                                        <s:elseif test="%{#l.available=='下架'}">
                                                             <span class="text-danger">下架</span>
                                                         </s:elseif>
                                                     </div>
                                                     <div class="col-xs-12 col-sm-12 col-md-12  col-lg-4">
-
+                                                        商品分类:<span class="text-info">${l.cate}</span>
                                                     </div>
 
                                                     <div class="col-xs-12 col-sm-12 col-md-12  col-lg-4">

@@ -25,8 +25,8 @@ import java.util.LinkedHashMap;
 @Controller("AndroidGoodsAction")
 @Scope("prototype")
 @ParentPackage(value = "json-default")
-@Result(name = "error", location = "/WEB-INF/content/util/error.jsp")
-public class GoodsAction extends ActionSupport implements BaseAction{
+@Result(name = "error", location = "/android/error", type = "redirect")
+public class GoodsAction extends BaseAction{
     private static final Logger log = Logger.getLogger(GoodsAction.class);
 
     // 商品
@@ -50,7 +50,13 @@ public class GoodsAction extends ActionSupport implements BaseAction{
     @Resource(name = "GoodsService")
     private IGoodsService goodsService;
 
+    @Override
+    public String create() {
+        return null;
+    }
+
     /**
+     * http://localhost:8080/android/goods/info?id=1
      * 根据id查询单个商品的信息
      * 参数:id
      * 返回:商品的json信息
@@ -74,13 +80,16 @@ public class GoodsAction extends ActionSupport implements BaseAction{
                 // Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                 // Object test = gson.toJson(goods);
                 //log.debug(result);
-                return SUCCESS;
+                if (result!=null) {
+                    return SUCCESS;
+                }
             }
         }
         return ERROR;
     }
 
     /**
+     * http://localhost:8080/android/goods/list?page=1&size=5
      * 根据输入的当前页page和每页显示数size,
      * 获取available为new的正在参与夺宝的商品,下架商品无法查询到
      * 参数:page和size
@@ -94,7 +103,7 @@ public class GoodsAction extends ActionSupport implements BaseAction{
         if (checkInt(page) && checkInt(size)) {
             LinkedHashMap<String, String> lhm = new LinkedHashMap<>();
             lhm.put("retime", "desc");
-            goodsPage = goodsService.getPaginationService(Goods.class, page, size, "available='new'", lhm);
+            goodsPage = goodsService.getPaginationService(Goods.class, page, size, "available='新品'", lhm);
             if (goodsPage != null) {
                 log.debug("总共有" + goodsPage.getAllRows() + "条记录");
                 result = JSON.toJSON(goodsPage);

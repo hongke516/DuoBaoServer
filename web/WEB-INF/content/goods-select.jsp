@@ -26,7 +26,7 @@
                         var goods = $.parseJSON(result);
                         $("#image").attr("src", goods.image);
                         $("#trait").attr("src", goods.trait);
-                        if (goods.available == 'new') {
+                        if (goods.available == '新品') {
                             $("#available").text("新品");
                         } else {
                             $("#available").text("下架");
@@ -49,6 +49,7 @@
                         $("#modifyPrice").attr("placeholder", "原值:" + goods.price);
                         $("#modifyTotal").val(goods.total);
                         $("#modifyTotal").attr("placeholder", "原值:" + goods.total);
+                        $("#modifyCate").val(goods.cate);
                         $("#modifyAvailable").val(goods.available);
 
                         // 更新
@@ -188,36 +189,55 @@
 
                                                                 <ul class="list-group">
                                                                     <li class="list-group-item" hidden="hidden">
-                                                                        <input id="modifyId" name="modifyGoods.id"
-                                                                               hidden="hidden"/>
+                                                                        <input id="modifyId" value="${goods.id}" name="goods.id" hidden="hidden"/>
                                                                     </li>
                                                                     <li class="list-group-item">
 
                                                                         <label for="modifyPrice">价格:</label>
-                                                                        <input name="modifyGoods.price" id="modifyPrice"
-                                                                               class="form-control"/>
+                                                                        <input name="goods.price" id="modifyPrice"
+                                                                               class="form-control"
+                                                                               value="${goods.price}"
+                                                                               placeholder="原值:${goods.price}"/>
                                                                     </li>
                                                                     <li class="list-group-item">
                                                                         <label for="modifyTotal">总需人次:</label>
-                                                                        <input name="modifyGoods.total" id="modifyTotal"
-                                                                               class="form-control"/>
+                                                                        <input name="goods.total" id="modifyTotal"
+                                                                               class="form-control"
+                                                                               value="${goods.total}"
+                                                                               placeholder="原值:${goods.total}"/>
                                                                     </li>
                                                                     <li class="list-group-item">
                                                                         <label for="modifyPer">每份人次:</label>
-                                                                        <input name="modifyGoods.per" id="modifyPer"
-                                                                               class="form-control"/>
+                                                                        <input name="goods.per" id="modifyPer"
+                                                                               class="form-control" value="${goods.per}"
+                                                                               placeholder="原值:${goods.per}"/>
                                                                     </li>
                                                                     <li class="list-group-item">
-                                                                        <label for="modifyAvailable">是否参与夺宝:</label>
-                                                                        <select class="form-control"
-                                                                                name="modifyGoods.available"
-                                                                                id="modifyAvailable">
-                                                                            <option class="form-select-button" value="new">新品
-                                                                            </option>
-                                                                            <option class="form-select-button" value="old">
-                                                                                下架
-                                                                            </option>
-                                                                        </select>
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-lg-6">
+                                                                                <label for="modifyAvailable">是否参与夺宝:</label>
+                                                                                <select class="form-control" name="goods.available"
+                                                                                        id="modifyAvailable">
+                                                                                    <option class="form-select-button" value="新品">新品</option>
+                                                                                    <option class="form-select-button" value="下架">下架</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-lg-6">
+                                                                                <label for="modifyCate">商品分类:</label>
+                                                                                <select class="form-control" name="goods.cate"
+                                                                                        id="modifyCate">
+                                                                                    <option class="form-select-button" value="优选商品">优选商品</option>
+                                                                                    <option class="form-select-button" value="手机平板">手机平板</option>
+                                                                                    <option class="form-select-button" value="电脑办公">电脑办公</option>
+                                                                                    <option class="form-select-button" value="数码影音">数码影音</option>
+                                                                                    <option class="form-select-button" value="女性时尚">女性时尚</option>
+                                                                                    <option class="form-select-button" value="美食天地">美食天地</option>
+                                                                                    <option class="form-select-button" value="潮流新品">潮流新品</option>
+                                                                                    <option class="form-select-button" value="网易周边">网易周边</option>
+                                                                                    <option class="form-select-button" value="其他商品">其他商品</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
                                                                     </li>
                                                                 </ul>
 

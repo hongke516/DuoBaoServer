@@ -13,7 +13,7 @@
 
 <ehcache>
    <!-- 缓存对象 存放到那个路径地下 -->
-  <diskStore path="/home/qingyan/fozoto" />
+  <diskStore path="/home/qingyan/duobao" />
 
   <!-- 定义缓存的默认行为
     maxElementsInMemory:缓存中最大存放的对象

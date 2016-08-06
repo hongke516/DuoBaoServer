@@ -89,42 +89,61 @@
 
                                         <ul class="list-group">
                                             <li class="list-group-item" hidden="hidden">
-                                                <input name="modifyGoods.id" value="${goods.id}" hidden="hidden"/>
+                                                <input name="goods.id" value="${goods.id}" hidden="hidden"/>
                                             </li>
                                             <li class="list-group-item">
 
                                                 <label for="modifyPrice">价格:</label>
-                                                <input name="modifyGoods.price" id="modifyPrice"
+                                                <input name="goods.price" id="modifyPrice"
                                                        class="form-control"
                                                        value="${goods.price}"
                                                        placeholder="原值:${goods.price}"/>
                                             </li>
                                             <li class="list-group-item">
                                                 <label for="modifyTotal">总需人次:</label>
-                                                <input name="modifyGoods.total" id="modifyTotal"
+                                                <input name="goods.total" id="modifyTotal"
                                                        class="form-control"
                                                        value="${goods.total}"
                                                        placeholder="原值:${goods.total}"/>
                                             </li>
                                             <li class="list-group-item">
                                                 <label for="modifyPer">每份人次:</label>
-                                                <input name="modifyGoods.per" id="modifyPer"
+                                                <input name="goods.per" id="modifyPer"
                                                        class="form-control" value="${goods.per}"
                                                        placeholder="原值:${goods.per}"/>
                                             </li>
                                             <li class="list-group-item">
-                                                <label for="modifyAvailable">是否参与夺宝:</label>
-                                                <select class="form-control" name="modifyGoods.available"
-                                                        id="modifyAvailable">
-                                                    <s:if test="%{#request.goods.available=='new'}">
-                                                        <option class="form-select-button" selected="selected" value="new">新品</option>
-                                                        <option class="form-select-button" value="old">下架</option>
-                                                    </s:if>
-                                                    <s:elseif test="%{#request.goods.available=='old'}">
-                                                        <option class="form-select-button" value="new">新品</option>
-                                                        <option class="form-select-button" selected="selected" value="old">下架</option>
-                                                    </s:elseif>
-                                                </select>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-lg-6">
+                                                        <label for="modifyAvailable">是否参与夺宝:</label>
+                                                        <select class="form-control" name="goods.available"
+                                                                id="modifyAvailable">
+                                                            <s:if test="%{#request.goods.available=='新品'}">
+                                                                <option class="form-select-button" selected="selected" value="新品">新品</option>
+                                                                <option class="form-select-button" value="下架">下架</option>
+                                                            </s:if>
+                                                            <s:elseif test="%{#request.goods.available=='下架'}">
+                                                                <option class="form-select-button" value="新品">新品</option>
+                                                                <option class="form-select-button" selected="selected" value="下架">下架</option>
+                                                            </s:elseif>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-xs-12 col-lg-6">
+                                                        <label for="modifyCate">是否参与夺宝:</label>
+                                                        <select class="form-control" name="goods.cate"
+                                                                id="modifyCate">
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='优选商品'}">selected</s:if> value="优选商品">优选商品</option>
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='手机平板'}">selected</s:if> value="手机平板">手机平板</option>
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='电脑办公'}">selected</s:if> value="电脑办公">电脑办公</option>
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='数码影音'}">selected</s:if> value="数码影音">数码影音</option>
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='女性时尚'}">selected</s:if> value="女性时尚">女性时尚</option>
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='美食天地'}">selected</s:if> value="美食天地">美食天地</option>
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='潮流新品'}">selected</s:if> value="潮流新品">潮流新品</option>
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='网易周边'}">selected</s:if> value="网易周边">网易周边</option>
+                                                            <option class="form-select-button" <s:if test="%{#request.goods.cate=='其他商品'}">selected</s:if> value="其他商品">其他商品</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </li>
                                         </ul>
 
@@ -168,63 +187,76 @@
                             </div>
                         </div>
                         <div class="panel-body">
+
                             <ul class="list-group">
-                                <%-- intro --%>
                                 <li class="list-group-item">
-                                    <label for="goodsIntro">名称</label>
-                                    <h3 class="text-success" id="goodsIntro">${goods.intro}</h3>
+                                    <span class="text-info">${goods.intro}</span>
                                 </li>
-
-                                <%-- image --%>
-                                <li class="list-group-item">
-                                    <label for="goodsImage">图片</label>
-                                    <img id="goodsImage" src="${goods.image}" width="220px" height="220px"/>
-                                </li>
-
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <div class="col-xs-6 col-md-3">
-                                            是否参与夺宝:
-                                            <s:if test="%{#request.goods.available=='new'}">
-                                                <span class="text-success">新品</span>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                                            <img src="${goods.image}" height="180px" width="210px"/>
+                                            <s:if test="%{#request.goods.trait!=''}">
+                                                <img src="${goods.trait}" width="40px" height="40px"/>
                                             </s:if>
-                                            <s:elseif test="%{#request.goods.available=='old'}">
-                                                <span class="text-danger">下架</span>
-                                            </s:elseif>
                                         </div>
-                                        <div class="col-xs-6 col-md-3">
-                                            <%-- total --%>
-                                            <label for="goodsTotal">总需人次:</label>
-                                            <span id="goodsTotal">${goods.total}</span>
-                                        </div>
-                                        <div class="col-xs-6 col-md-3">
-                                            <%-- per --%>
-                                            <label for="goodsPer">每份人次:</label>
-                                            <span id="goodsPer">${goods.per}</span>
-                                        </div>
-                                        <div class="col-xs-6 col-md-3">
-                                            <%-- price --%>
-                                            <label for="goodsPrice">价格:￥</label>
-                                            <span id="goodsPrice">${goods.price}</span>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                                            <h3 class="text-success">
+                                                ${goods.intro}
+                                            </h3>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-4">
+                                                            价格:${goods.price}
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-4">
+                                                            总需人次:${goods.total}
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-4">
+                                                            每份人次:${goods.per}
+                                                        </div>
+                                                    </div>
+
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                                                            是否参与夺宝:
+                                                            <s:if test="%{#request.goods.available=='新品'}">
+                                                                <span class="text-success">新品</span>
+                                                            </s:if>
+                                                            <s:elseif test="%{#request.goods.available=='下架'}">
+                                                                <span class="text-danger">下架</span>
+                                                            </s:elseif>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-4">
+                                                            商品分类:<span class="text-info">${goods.cate}</span>
+                                                        </div>
+
+                                                        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-4">
+
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                                            首次夺宝:${goods.time}
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-6">
+                                                            重返夺宝:${goods.retime}
+                                                        </div>
+                                                    </div>
+
+                                                </li>
+                                            </ul>
+
                                         </div>
                                     </div>
-                                </li>
-                                <%-- trait --%>
-                                <li class="list-group-item">
-                                    <label for="goodsTrait">额外描述</label>
-                                    <span id="goodsTrait">
-                                        <s:if test="%{#goods.trait!=''}">
-                                            <img src="${goods.trait}"/>
-                                        </s:if>
-                                        <s:else>
-                                            无
-                                        </s:else>
-                                    </span>
-                                </li>
-                                <%-- remind --%>
-                                <li class="list-group-item">
-                                    <label for="goodsRemain">红字提醒</label>
-                                    <p class="text-danger" id="goodsRemain">${goods.remind}</p>
+                                    <div class="text-center">
+                                        <span class="text-warning">${goods.remind}</span>
+                                    </div>
                                 </li>
                             </ul>
                         </div>

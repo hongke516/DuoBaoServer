@@ -1,5 +1,6 @@
 package com.fozoto.duobao.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
@@ -16,12 +17,17 @@ public class Issue implements Serializable{
     private int id;             // 夺宝第几期
     private Goods goods;        // 这期夺宝对应的商品
     private int done;           // 本期已经被购买的人次
-    private String finish;      // 本期是否完成了  true/false
+    private String over;        // 本期是否完成了  true完成/false未完成
     private String start;       // 本期开始的时间
-
-    private List<Number> numbers;   // 本期的所有夺宝号码
+    private String finish;      // 本期完成时间
+    @JSONField(serialize=false)
+    private Calculator calculator;  // 本期计算结果
+    @JSONField(serialize=false)
     private Lucky lucky;        // 本期的幸运
+    @JSONField(serialize=false)
     private List<Annal> annal;        // 本期商品的夺宝所有记录
+    @JSONField(serialize=false)
+    private List<Number> numbers;   // 所有随机号码
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,12 +54,6 @@ public class Issue implements Serializable{
         return start;
     }
 
-    // Number负责维护与用户的关系
-    @OneToMany(targetEntity = Number.class, mappedBy = "issue", cascade = CascadeType.ALL)
-    public List<Number> getNumbers() {
-        return numbers;
-    }
-
     // Lucky负责维护关系
     @OneToOne(targetEntity = Lucky.class, cascade = CascadeType.ALL, mappedBy = "issue")
     public Lucky getLucky() {
@@ -65,16 +65,40 @@ public class Issue implements Serializable{
         return annal;
     }
 
+    // Calculator负责维护关系
+    @OneToOne(targetEntity = Calculator.class, cascade = CascadeType.ALL, mappedBy = "issue")
+    public Calculator getCalculator() {
+        return calculator;
+    }
+
+    public String getOver() {
+        return over;
+    }
+
+
+    @OneToMany(targetEntity = Number.class, cascade = CascadeType.ALL, mappedBy = "issue")
+    public List<Number> getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(List<Number> numbers) {
+        this.numbers = numbers;
+    }
+
+    public void setOver(String over) {
+        this.over = over;
+    }
+
+    public void setCalculator(Calculator calculator) {
+        this.calculator = calculator;
+    }
+
     public void setAnnal(List<Annal> annal) {
         this.annal = annal;
     }
 
     public void setLucky(Lucky lucky) {
         this.lucky = lucky;
-    }
-
-    public void setNumbers(List<Number> numbers) {
-        this.numbers = numbers;
     }
 
     public void setId(int id) {
@@ -101,9 +125,11 @@ public class Issue implements Serializable{
     public String toString() {
         return "Issue{" +
                 "id=" + id +
+                ", goods=" + goods +
                 ", done=" + done +
-                ", finish='" + finish + '\'' +
+                ", over='" + over + '\'' +
                 ", start='" + start + '\'' +
+                ", finish='" + finish + '\'' +
                 '}';
     }
 }

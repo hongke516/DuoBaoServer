@@ -12,5 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 @Scope("prototype")
-public class GoodsDAO extends BaseDAO<Goods> implements IGoodsDAO {
+public class GoodsDAO extends HelpDAO<Goods> implements IGoodsDAO {
 }

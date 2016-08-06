@@ -10,7 +10,7 @@ import java.util.List;
  * 一元夺宝的用户
  * Created by qingyan on 16-7-27.
  */
-@Entity(name = "User")
+@Entity(name = "Gamester")
 @Scope("prototype")
 public class Gamester implements Serializable{
     private int id;                 // 主键
@@ -24,8 +24,6 @@ public class Gamester implements Serializable{
     private int stone;              // 宝石
     private int money;              // 余额
 
-
-    private List<Number> numbers;   // 用户购买的夺宝号码
     private List<Lucky> luckies;    // 用户的幸运商品
     private List<Annal> annals;     // 用户的所有夺宝记录
 
@@ -65,12 +63,6 @@ public class Gamester implements Serializable{
 
     public int getMoney() {
         return money;
-    }
-
-    // Number负责维护与用户的关系
-    @OneToMany(targetEntity = Number.class, mappedBy = "gamester", cascade = CascadeType.ALL)
-    public List<Number> getNumbers() {
-        return numbers;
     }
 
     // Lucky负责维护与用户的关系
@@ -123,10 +115,6 @@ public class Gamester implements Serializable{
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
-    }
-
-    public void setNumbers(List<Number> numbers) {
-        this.numbers = numbers;
     }
 
     public void setLuckies(List<Lucky> luckies) {

@@ -1,0 +1,20 @@
+@charset "utf-8";
+/*share*/
+.share-con{ margin-left:50px;height:38px;overflow:hidden;padding-left:10px;font:12px/180% Arial, Helvetica, sans-serif,"宋体"; color:#999;}
+.share-con span.tit{float:left;line-height:38px; width:50px; background:none; }
+.share-con a,.share-con a span{height:16px;width:16px;display:block;float:left;overflow:hidden;}
+.share-con a{padding:3px;border:solid 1px #fff;margin-top:7px;}
+.share-con a span{background-image:url(../images/share-icon.gif);background-repeat:no-repeat;cursor:pointer;}
+.share-con a:hover{opacity:0.7;filter:alpha(opacity=70);border:solid 1px #ddd;}
+.share-con a span.copylink{background-position:0 0;}
+.share-con a span.tengxunweibo{background-position:0 -16px;}
+.share-con a span.xinlang{background-position:0 -32px;}
+.share-con a span.sohu{background-position:0 -48px;}
+.share-con a span.wangyi{background-position:0 -64px;}
+.share-con a span.qqzone{background-position:0 -80px;}
+.share-con a span.qqpengyou{background-position:0 -96px;}
+.share-con a span.renren{background-position:0 -112px;}
+.share-con a span.kaixin{background-position:0 -128px;}
+.share-con a span.taojianghu{background-position:0 -144px;}
+.share-con a span.douban{background-position:0 -160px;}
+.share-con a span.baidusoucang{background-position:0 -176px;margin-right:0px;}

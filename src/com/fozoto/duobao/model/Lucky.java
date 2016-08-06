@@ -15,8 +15,7 @@ public class Lucky implements Serializable{
 
     private int id;             // 主键
     private Issue issue;        // 哪一期
-    private Gamester gamester;          // 幸运的用户
-    private Calculator calculator;      // 幸运号码在计算结果中产生
+    private Gamester gamester;  // 幸运的用户
     private Goods goods;        // 幸运的商品
     private String time;        // 揭晓时间
 
@@ -34,11 +33,6 @@ public class Lucky implements Serializable{
     @ManyToOne(targetEntity = Gamester.class, cascade = CascadeType.REFRESH, optional = false)
     public Gamester getGamester() {
         return gamester;
-    }
-
-    @OneToOne(targetEntity = Calculator.class, cascade = CascadeType.ALL, optional = false)
-    public Calculator getCalculator() {
-        return calculator;
     }
 
     public String getTime() {
@@ -64,10 +58,6 @@ public class Lucky implements Serializable{
 
     public void setGamester(Gamester gamester) {
         this.gamester = gamester;
-    }
-
-    public void setCalculator(Calculator calculator) {
-        this.calculator = calculator;
     }
 
     public void setTime(String time) {

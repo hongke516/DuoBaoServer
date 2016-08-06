@@ -9,5 +9,41 @@ import java.util.List;
  */
 public interface IHelpService<T> extends IBaseService<T> {
 
-    public List<T> getByGoods(Class<T> clazz, Goods goods);
+    /**
+     * 通过goodsId查询T
+     *
+     * @param clazz Issue的反射
+     * @param goodsId 需要商品的id
+     * @return List<T>
+     */
+    public List<T> getByGoods(Class<T> clazz, int goodsId);
+
+    /**
+     * 通过自身id和goodsId查询T
+     *
+     * @param clazz Issue的反射
+     * @param id T的id
+     * @param goodsId 需要商品的id
+     * @return T
+     */
+    public T getByGoods(Class<T> clazz, int id, int goodsId);
+
+    /**
+     * 通过issueId查询T
+     *
+     * @param clazz Issue的反射
+     * @param issueId 需要商品的id
+     * @return List<T>
+     */
+    public List<T> getByIssue(Class<T> clazz, int issueId);
+
+    /**
+     * 通过自身id和issueId查询T
+     *
+     * @param clazz Issue的反射
+     * @param id T的id
+     * @param issueId 需要商品的id
+     * @return T
+     */
+    public T getByIssue(Class<T> clazz, int id, int issueId);
 }
