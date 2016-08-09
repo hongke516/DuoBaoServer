@@ -2,6 +2,21 @@
 	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
+
+
+<!--
+
+
+		这个文件其实只是用来配合/junit/ExportDatabaseSchema,用来生成数据表的,并无其他用处
+		因为项目里的hibernate使用了Annotation注释配置了.
+
+
+-->
+
+
+
+
+
 <hibernate-configuration>
 	<session-factory>
 		<!-- Database connection settings -->
@@ -32,5 +47,7 @@
 		<mapping class="com.fozoto.duobao.model.Shape"/>
         <mapping class="com.fozoto.duobao.model.Gamester"/>
 		<mapping class="com.fozoto.duobao.model.Lottery"/>
+		<mapping class="com.fozoto.duobao.model.Ad"/>
 	</session-factory>
+
 </hibernate-configuration>

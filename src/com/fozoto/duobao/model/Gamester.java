@@ -13,16 +13,26 @@ import java.util.List;
 @Entity(name = "Gamester")
 @Scope("prototype")
 public class Gamester implements Serializable{
+
+    public static final String GAMESTER_COOKIE = "Gamester_cookie";
+    public static final String LANDING_GAMESTER = "landingGamester";
+    public static final int ADMIN_POWER = 5;
+
     private int id;                 // 主键
     private String ip;              // ip地址
     private String account;         // 账号
     private String password;        // 密码
+    private String tip;             // 密码提示
+    private String repassword;      // 再次输入密码
+    private boolean remember;        // 记住密码
     private String nickname;        // 昵称
     private String phone;           // 手机号
     private String portrait;        // 头像
     private String time;            // 注册时间
     private int stone;              // 宝石
     private int money;              // 余额
+    private int power;              // 用户权限
+    private String city;            // 用户所在城市(由ip地址查询得到)
 
     private List<Lucky> luckies;    // 用户的幸运商品
     private List<Annal> annals;     // 用户的所有夺宝记录
@@ -81,6 +91,32 @@ public class Gamester implements Serializable{
         return time;
     }
 
+    @Transient
+    public String getRepassword() {
+        return repassword;
+    }
+
+    public String getTip() {
+        return tip;
+    }
+
+    @Transient
+    public boolean getRemember() {
+        return remember;
+    }
+
+    public void setRemember(boolean remember) {
+        this.remember = remember;
+    }
+
+    public void setRepassword(String repassword) {
+        this.repassword = repassword;
+    }
+
+    public void setTip(String tip) {
+        this.tip = tip;
+    }
+
     public void setTime(String time) {
         this.time = time;
     }
@@ -129,6 +165,22 @@ public class Gamester implements Serializable{
         this.money = money;
     }
 
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "Gamester{" +
@@ -136,12 +188,17 @@ public class Gamester implements Serializable{
                 ", ip='" + ip + '\'' +
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +
+                ", tip='" + tip + '\'' +
+                ", repassword='" + repassword + '\'' +
+                ", remember=" + remember +
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", portrait='" + portrait + '\'' +
                 ", time='" + time + '\'' +
                 ", stone=" + stone +
                 ", money=" + money +
+                ", power=" + power +
+                ", city='" + city + '\'' +
                 '}';
     }
 }

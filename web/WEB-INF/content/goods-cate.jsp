@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: qingyan
-  Date: 16-7-31
-  Time: 下午8:44
+  Date: 16-8-9
+  Time: 上午10:28
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,7 +10,7 @@
 <head>
     <%@include file="util/dependences.jsp" %>
 
-    <title>所有商品</title>
+    <title>管理</title>
     <script>
 
         // 检查是否有上一页
@@ -38,7 +38,7 @@
                     $("#turnToValue").val("");
                     return false;
                 }
-                $("#turnTo").attr("href", "${pageContext.request.contextPath}/goods/page?page=" + $("#turnToValue").val() + "&size=10");
+                $("#turnTo").attr("href", "${pageContext.request.contextPath}/goods/cate?page=" + $("#turnToValue").val()+"&size=10&sort=${sort}");
             });
 
             // 回到顶部
@@ -82,6 +82,9 @@
     </script>
 </head>
 <body>
+<%
+    int id = 0;
+%>
 <div class="container">
     <%@include file="util/header.jsp" %>
     <div class="row">
@@ -93,7 +96,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <div class="text-center">所有商品</div>
+                        <div class="text-center">${sort}</div>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -177,16 +180,16 @@
             <div class="row">
                 <div class="col-xs-12 col-md-4">
                     <ul class="pagination">
-                        <li><a href="${pageContext.request.contextPath}/goods/page?page=1&size=10"
+                        <li><a href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=${sort}"
                                style="cursor: pointer;text-decoration: none;">首页</a></li>
                         <li><a onclick="return checkPrePage();"
-                               href="${pageContext.request.contextPath}/goods/page?page=${goodsPage.currentPage-1}&size=10"
+                               href="${pageContext.request.contextPath}/goods/cate?page=${goodsPage.currentPage-1}&size=10&sort=${sort}"
                                style="cursor: pointer;text-decoration: none;">上一页</a></li>
                         <li><a onclick="return checkNextPage();"
-                               href="${pageContext.request.contextPath}/goods/page?page=${goodsPage.currentPage+1}&size=10"
+                               href="${pageContext.request.contextPath}/goods/cate?page=${goodsPage.currentPage+1}&size=10&sort=${sort}"
                                style="cursor: pointer;text-decoration: none;">下一页</a></li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/goods/page?page=${goodsPage.allPage}&size=10"
+                            <a href="${pageContext.request.contextPath}/goods/cate?page=${goodsPage.allPage}&size=10&sort=${sort}"
                                style="cursor: pointer;text-decoration: none;">末页</a></li>
                     </ul>
                 </div>
@@ -203,10 +206,9 @@
                                style="width:50px; margin-left: 10px;"
                                placeholder="页码"/>
                         <a id="turnTo" class="btn btn-success" style="padding: 3px; margin-left: 7px;"
-                           href="${pageContext.request.contextPath}/goods/page"
+                           href="${pageContext.request.contextPath}/goods/cate"
                            style="cursor: pointer;text-decoration: none;">跳转</a>
                     </div>
-
                 </div>
             </div>
             <div class="col-xs-12 col-sm-1">
@@ -217,3 +219,4 @@
 </div>
 </body>
 </html>
+

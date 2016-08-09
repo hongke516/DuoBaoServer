@@ -171,7 +171,7 @@
                         <a class="deletePopover btn btn-danger" style="cursor: pointer;"
                            rel="nofollow" data-toggle="popover">删除</a>
                         <a href="${pageContext.request.contextPath}/goods/delete?goodsId=${goods.id}"
-                           class="text-danger" hidden="hidden"><span
+                           class="text-danger" hidden="hidden" rel="nofollow"><span
                                 id="delete">删除</span></a>
                     </div>
 

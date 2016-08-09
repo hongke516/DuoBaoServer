@@ -10,7 +10,7 @@
 <html>
 <head>
     <script>
-        location.href = "${pageContext.request.contextPath}/goods/page"
+        location.href = "${pageContext.request.contextPath}/goods-navi"
     </script>
 </head>
 <body>

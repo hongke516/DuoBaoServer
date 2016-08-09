@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+
+
+
+
+
+<!--
+
+        这个文件其实只是用来配合/junit/* 下的测试文件,用来测试用的, 真正有用的spring配置文件在/WEB-INF下
+    的applicationContext.xml
+
+    -->
+
+
+
+
+
+
+
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
