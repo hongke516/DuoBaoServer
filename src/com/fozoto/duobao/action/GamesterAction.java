@@ -8,20 +8,16 @@ import com.fozoto.duobao.util.entity.PromptInfo;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.Namespace;
-import org.apache.struts2.convention.annotation.ParentPackage;
-import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -32,7 +28,9 @@ import java.util.List;
 @Controller("GamesterAction")
 @Scope("prototype")
 @ParentPackage(value = "json-default")
-@Result(name = "error", location = "/android/error", type = "redirect")
+@Results({
+        @Result(name = "error", location = "/WEB-INF/content/util/prompt-info.jsp")
+})
 public class GamesterAction extends ActionSupport {
 
     @Resource(name = "GamesterService")
@@ -53,32 +51,39 @@ public class GamesterAction extends ActionSupport {
     )
     public String register() {
         if (gamester != null) {
-            try {
-                // 刚注册的用户权限等级为1
-                gamester.setPower(1);
-                // 余额
-                gamester.setMoney(0);
-                // 宝石
-                gamester.setStone(0);
-                // 注册IP
-                gamester.setIp(ServletActionContext.getRequest().getRemoteAddr());
-                // 注册时间
-                gamester.setTime(TimeUtil.getTime().toString());
-                // 密码加密
-                gamester.setPassword(toHashedPassword(gamester.getPassword()));
-                if (gamesterService.add(gamester)) {
-                    result = "{\"result\":\"ok\"}";
-                    return SUCCESS;
-                } else {
+            if (!repeatAccount(gamester)) {
+                try {
+                    // 刚注册的用户权限等级为1
+                    gamester.setPower(1);
+                    // 余额
+                    gamester.setMoney(0);
+                    // 宝石
+                    gamester.setStone(0);
+                    // 注册IP
+                    gamester.setIp(ServletActionContext.getRequest().getRemoteAddr());
+                    // 注册时间
+                    gamester.setTime(TimeUtil.getTime().toString());
+                    // 密码加密
+                    gamester.setPassword(toHashedPassword(gamester.getPassword()));
+                    if (gamesterService.add(gamester)) {
+                        result = "{\"result\":\"ok\"}";
+                        return SUCCESS;
+                    } else {
+                        promptInfo.setTitle("注册失败");
+                        promptInfo.setMessage("对不起,保存注册信息失败!");
+                        result = "{\"result\":\"error\"}";
+                        return ERROR;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                     promptInfo.setTitle("注册失败");
                     promptInfo.setMessage("对不起,您的输入信息有误!");
                     result = "{\"result\":\"error\"}";
                     return ERROR;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
                 promptInfo.setTitle("注册失败");
-                promptInfo.setMessage("对不起,您的输入信息有误!");
+                promptInfo.setMessage("对不起,您的输入的账号已存在!");
                 result = "{\"result\":\"error\"}";
                 return ERROR;
             }
@@ -100,29 +105,31 @@ public class GamesterAction extends ActionSupport {
         // gamester是用户输入的数据
         if (gamester != null) {
             boolean isRemember = gamester.getRemember();
-            System.out.println("用户提交的登录信息"+gamester.toString());
+//            System.out.println("用户提交的登录信息"+gamester.toString());
             // 得到数据库里的用户gamester
             gamester = isGamesterCorrect(gamester.getAccount(), gamester.getPassword());
             if (gamester!=null) {
-                System.out.println("是否记住密码"+isRemember);
+//                System.out.println("是否记住密码"+isRemember);
                 // 用户选择了记住密码
                 if (isRemember) {
-                    System.out.println("用户登录时选择记住密码");
+//                    System.out.println("用户登录时选择记住密码");
                     // 将登录信息存cookie
                     Cookie cookie = this.addCookie(gamester);
                     // 添加cookie到response中,不进行这一步,cookie会添加失败
                     ServletActionContext.getResponse().addCookie(cookie);
-                    System.out.println("加入cookie成功");
+//                    System.out.println("加入cookie成功");
                 }
-                System.out.println(gamester.toString());
+//                System.out.println(gamester.toString());
                 // 将用户信息放入session
                 if (addToSession(gamester)) {
-                    System.out.println("在login的时候加入session");
+//                    System.out.println("在login的时候加入session");
                     result = "{\"result\":\"ok\"}";
                     return SUCCESS;
                 }
             }
         }
+        promptInfo.setTitle("登录失败");
+        promptInfo.setMessage("账号或密码错误!");
         result = "{\"result\":\"error\"}";
         return ERROR;
     }
@@ -138,10 +145,12 @@ public class GamesterAction extends ActionSupport {
             HttpSession session = ServletActionContext.getRequest().getSession();
             session.removeAttribute(Gamester.LANDING_GAMESTER);
             result = "{\"result\":\"ok\"}";
-            System.out.println("用户注销成功!");
+//            System.out.println("用户注销成功!");
             return SUCCESS;
         } catch (Exception e){
             e.printStackTrace();
+            promptInfo.setTitle("注销失败");
+            promptInfo.setMessage("注销时出现异常!");
             result = "{\"result\":\"error\"}";
             return ERROR;
         }
@@ -154,7 +163,7 @@ public class GamesterAction extends ActionSupport {
             results = @Result(type = "json", params = {"root", "result", "contentType", "application/json"})
     )
     public String cookie() {
-        System.out.println("进入cookie登录了");
+//        System.out.println("进入cookie登录了");
         Cookie[] cookies = ServletActionContext.getRequest().getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -165,12 +174,12 @@ public class GamesterAction extends ActionSupport {
                         String[] split = value.split(",");
                         String account = split[0];
                         String password = split[1];
-                        System.out.println("得到cookie里的账户和密码了: account="+account+", password="+password);
+//                        System.out.println("得到cookie里的账户和密码了: account="+account+", password="+password);
                         // 用户使用cookie登录
                         gamester = this.isGamesterCorrectByCookie(account, password);
                         if(gamester != null) {
                             if (addToSession(gamester)) {
-                                System.out.println("在cookie登录的时候加入session");
+//                                System.out.println("在cookie登录的时候加入session");
                                 // 成功登录
                                 result = "{\"result\":\""+gamester.getNickname()+"\"}";
                                 return SUCCESS;
@@ -181,6 +190,9 @@ public class GamesterAction extends ActionSupport {
             }
         }
         result = "{\"result\":\"error\"}";
+        promptInfo.setTitle("cookie登录失败!");
+        promptInfo.setMessage("cookie出现问题,请重新登录");
+        promptInfo.setTogo("${pageContext.request.contextPath}/gamester-login");
         return ERROR;
     }
 
@@ -191,20 +203,30 @@ public class GamesterAction extends ActionSupport {
             results = @Result(type = "json", params = {"root", "result", "contentType", "application/json"})
     )
     public String check() {
-        System.out.println("进入check了");
+//        System.out.println("进入check了");
+        try {
+            if (repeatAccount(gamester)) {
+                result = "{\"result\":\"error\"}";
+            } else {
+                result = "{\"result\":\"ok\"}";
+            }
+            return SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ERROR;
+        }
+    }
+
+    private boolean repeatAccount(Gamester gamester) {
         if (gamester != null) {
             LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
             linkedHashMap.put("account", gamester.getAccount());
             List<Gamester> gamesters = gamesterService.get(Gamester.class, linkedHashMap);
             if (gamesters.size() > 0) {
-                result = "{\"result\":\"error\"}";
-            } else {
-                result = "{\"result\":\"ok\"}";
+                return true;
             }
-            System.out.println("结果为:" + result);
-            return SUCCESS;
         }
-        return ERROR;
+        return false;
     }
 
     // 用户名和密码是否正确
@@ -271,7 +293,7 @@ public class GamesterAction extends ActionSupport {
         try {
             HttpSession session = ServletActionContext.getRequest().getSession();
 
-            System.out.println("正在登录的用户放入session:"+gamester.toString());
+//            System.out.println("正在登录的用户放入session:"+gamester.toString());
             //将用户信息放入session
             session.setAttribute(Gamester.LANDING_GAMESTER, gamester);
 

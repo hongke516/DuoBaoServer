@@ -41,7 +41,7 @@ import java.util.List;
         @Result(name = "error", location = "/android/error", type = "redirect"),
         @Result(name = "power", location = "/WEB-INF/content/util/prompt-info.jsp")
 })
-public class GoodsAction extends ActionSupport {
+public class GoodsAction extends BaseAction {
     private static final Logger log = Logger.getLogger(GoodsAction.class);
 
     // 商品,用于在浏览器显示
@@ -65,7 +65,7 @@ public class GoodsAction extends ActionSupport {
     // 控制修改多个Shape和Detail,在textarea换行
     private String line;
 
-    private Gamester landedGamester;
+
 
     @Autowired
     public PageBean<Goods> goodsPage;
@@ -179,7 +179,7 @@ public class GoodsAction extends ActionSupport {
             }
             return ERROR;
         } else {
-            lowPower();
+            lowPower(promptInfo);
             return "power";
         }
     }
@@ -273,7 +273,7 @@ public class GoodsAction extends ActionSupport {
             }
             return ERROR;
         } else {
-            lowPower();
+            lowPower(promptInfo);
             return "power";
         }
     }
@@ -309,7 +309,7 @@ public class GoodsAction extends ActionSupport {
             }
             return ERROR;
         } else {
-            lowPower();
+            lowPower(promptInfo);
             return "power";
         }
     }
@@ -334,7 +334,7 @@ public class GoodsAction extends ActionSupport {
             }
             return ERROR;
         } else {
-            lowPower();
+            lowPower(promptInfo);
             return "power";
         }
     }
@@ -373,16 +373,12 @@ public class GoodsAction extends ActionSupport {
             }
             return ERROR;
         } else {
-            lowPower();
+            lowPower(promptInfo);
             return "power";
         }
     }
 
-    private void lowPower() {
-        promptInfo.setTitle("权限不足!");
-        promptInfo.setMessage("对不起,这个需要管理员权限才能操作,您当前的权限不足!");
-        promptInfo.setTogo("${pageContext.request.contextPath}/gamester/login");
-    }
+
 
     public String getLine() {
         return line;
@@ -412,21 +408,6 @@ public class GoodsAction extends ActionSupport {
                     ) {
                 return true;
             }
-        }
-        return false;
-    }
-
-    private boolean adminPower() {
-        try {
-            HttpSession session = ServletActionContext.getRequest().getSession();
-            landedGamester = (Gamester) session.getAttribute(Gamester.LANDING_GAMESTER);
-            if (landedGamester != null) {
-                if (landedGamester.getPower() >= Gamester.ADMIN_POWER) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return false;
     }
@@ -525,13 +506,5 @@ public class GoodsAction extends ActionSupport {
 
     public void setSort(String sort) {
         this.sort = sort;
-    }
-
-    public Gamester getLandedGamester() {
-        return landedGamester;
-    }
-
-    public void setLandedGamester(Gamester landedGamester) {
-        this.landedGamester = landedGamester;
     }
 }

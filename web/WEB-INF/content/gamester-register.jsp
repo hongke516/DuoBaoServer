@@ -21,6 +21,15 @@
             var fromStr = urlStr[1];
 
             /**
+             * 判断用户是否已经登录了，用户已登录不允许再登录
+             */
+            /*这个Landed_Gamester是在com.fozoto.duobao.model.Gamester定义的,在登录时加入session的*/
+            if(${landingGamester!=null && landingGamester.power!=0}) {
+                //跳转到首页
+                window.location.href="${pageContext.request.contextPath}/goods";
+            }
+
+            /**
              * 检查账号
              */
             $("#account").change(function() {
@@ -95,12 +104,16 @@
                                     type: "POST",
                                     dataType: "json",
                                     async: true,
-                                    data: $("#registerForm").serialize(),
+                                    data: {
+                                        "gamester.account": $("#account").val(),
+                                        "gamester.password": $("#password").val(),
+                                        "gamester.remember": true
+                                    },
                                     success: function (json) {
                                         //window.location.href=fromStr;
                                         //返回请求注册的页面
-                                        var result = $.parseJSON(json);
-                                        if (result == 'ok') {
+                                        var s = $.parseJSON(json);
+                                        if (s.result == 'ok') {
                                             window.location.href = "javascript:history.go(-1)";
                                         }
                                     },

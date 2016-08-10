@@ -33,39 +33,48 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27优选商品%27">优选商品</a>
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27优选商品%27">优选商品</a>
                                 </div>
                                 <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27手机平板%27">手机平板</a>
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27手机平板%27">手机平板</a>
                                 </div>
                                 <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27电脑办公%27">电脑办公</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27数码影音%27">数码影音</a>
-                                </div>
-                                <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27女性时尚%27">女性时尚</a>
-                                </div>
-                                <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27美食天地%27">美食天地</a>
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27电脑办公%27">电脑办公</a>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27潮流新品%27">潮流新品</a>
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27数码影音%27">数码影音</a>
                                 </div>
                                 <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27网易周边%27">网易周边</a>
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27女性时尚%27">女性时尚</a>
                                 </div>
                                 <div class="col-xs-12 col-lg-4 text-center">
-                                    <a rel="nofollow" href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27其他商品%27">其他商品</a>
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27美食天地%27">美食天地</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-12 col-lg-4 text-center">
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27潮流新品%27">潮流新品</a>
+                                </div>
+                                <div class="col-xs-12 col-lg-4 text-center">
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27网易周边%27">网易周边</a>
+                                </div>
+                                <div class="col-xs-12 col-lg-4 text-center">
+                                    <a rel="nofollow"
+                                       href="${pageContext.request.contextPath}/goods/cate?page=1&size=10&sort=%27其他商品%27">其他商品</a>
                                 </div>
                             </div>
                         </li>
@@ -95,6 +104,17 @@
                             </div>
                         </li>
                     </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <div class="text-center">广告管理</div>
+                    </div>
+                </div>
+                <div class="panel-body text-center">
+                    <a rel="nofollow" href="${pageContext.request.contextPath}/ad/list">广告管理</a>
                 </div>
             </div>
         </div>
