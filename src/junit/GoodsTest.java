@@ -4,9 +4,11 @@ import com.fozoto.duobao.action.GoodsAction;
 import com.fozoto.duobao.core.util.TimeUtil;
 import com.fozoto.duobao.model.Detail;
 import com.fozoto.duobao.model.Goods;
+import com.fozoto.duobao.model.Issue;
 import com.fozoto.duobao.model.Shape;
 import com.fozoto.duobao.service.IDetailService;
 import com.fozoto.duobao.service.IGoodsService;
+import com.fozoto.duobao.service.IIssueService;
 import com.fozoto.duobao.service.IShapeService;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -38,14 +40,24 @@ public class GoodsTest {
     @Autowired
     private IDetailService detailService;
 
+    @Autowired
+    private IIssueService issueService;
+
     @Test
-    public void testCreate() {
+    public void testAddAllCateGoods() {
+        String[] cates = {"优选商品", "手机平板", "电脑办公", "数码影音", "女性时尚", "美食天地", "潮流新品", "网易周边", "其他商品"};
+        for (String cate : cates) {
+            addGoodsByCate(cate);
+        }
+    }
+
+    private void addGoodsByCate(String cate) {
         Goods goods = new Goods();
         goods.setImage("https://onegoods.nosdn.127.net/goods/2351/86476111f1d4211c3fdf21e2c92fb4d0.jpg");
         goods.setIntro("奥迪 A3 2016款 Limousine 35 TFSI 领英型");
         goods.setRemind("本商品由北京兴奥晟通提供并发货，颜色随机，含保险，不含购置税及上牌费。参与前请仔细阅读活动说明！");
         goods.setAvailable("新品");
-        goods.setCate("其他商品");
+        goods.setCate(cate);
         goods.setExplains("重要说明：\n" +
                 "1、本商品由第三方提供；\n" +
                 "2、以上详情页面展示信息仅供参考，商品以实物为准；\n" +
@@ -103,6 +115,19 @@ public class GoodsTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        // 商品是新品, 新的一期就开始了.
+        Issue issue = new Issue();
+        issue.setGoods(goods);
+        issue.setOver("false");
+        issue.setDone(100);
+        issue.setStart(TimeUtil.getTime().toString());
+
+        try {
+            issueService.add(issue);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         System.out.println("测试通过");

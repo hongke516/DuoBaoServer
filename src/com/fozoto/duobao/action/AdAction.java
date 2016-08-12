@@ -4,7 +4,6 @@ import com.fozoto.duobao.model.Ad;
 import com.fozoto.duobao.service.IAdService;
 import com.fozoto.duobao.util.entity.PageBean;
 import com.fozoto.duobao.util.entity.PromptInfo;
-import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

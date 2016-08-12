@@ -58,9 +58,9 @@ public class IssueAction extends BaseAction{
     }
 
     /**
-     * http://localhost:8080/android/issue/info?id=2&goodsId=1
-     * 根据id和商品id查询单期信息
-     * 参数:id
+     * http://localhost:8080/android/issue/info?goodsId=1
+     * 查询正在夺宝的商品的期
+     * 参数:goodsId
      * 返回:单期的json信息
      */
     @Action(value = "info",
@@ -71,7 +71,7 @@ public class IssueAction extends BaseAction{
         log.debug("issue执行了info()方法");
         if (checkInt(goodsId)) {
 
-            issue = issueService.getByGoods(goodsId);
+            issue = issueService.onDuobao(goodsId);
             if (issue != null) {
                 log.debug(issue.toString());
                 result = JSON.toJSON(issue);

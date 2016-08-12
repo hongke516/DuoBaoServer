@@ -13,9 +13,10 @@
     <title>登录</title>
     <script>
         $(document).ready(function () {
+            // alert(document.referrer);
             //得到上一页面的地址
-            var urlStr = window.location.href.split("?from=");
-            var fromStr = urlStr[1];
+//            var urlStr = window.location.href.split("?from=");
+//            var fromStr = urlStr[1];
             // alert(window.parent.location);
             /**
              * 判断用户是否已经登录了，用户已登录不允许再登录
@@ -23,7 +24,7 @@
             /*这个Landed_Gamester是在com.fozoto.duobao.model.Gamester定义的,在登录时加入session的*/
             if(${landingGamester!=null && landingGamester.power!=0}) {
                 //跳转到首页
-                window.location.href="${pageContext.request.contextPath}/goods";
+                window.location.href="${pageContext.request.contextPath}/";
             }
 
 
@@ -67,9 +68,8 @@
                         success: function (json) {
                             var value = $.parseJSON(json);
                             if (value.result == 'ok') {
-                                //window.location.href=fromStr;
-                                if (window.parent.location == "/gamester-register") {
-                                    window.location.href = "${pageContext.request.contextPath}/goods";
+                                if (document.referrer.indexOf("/gamester-register")>0) {
+                                    window.location.href = "${pageContext.request.contextPath}/";
                                 } else {
                                     window.location.href = "javascript:history.go(-1)";
                                 }
@@ -91,7 +91,7 @@
 </head>
 <body>
 <div class="container">
-    <%@include file="/WEB-INF/content/util/header_gamester.jsp" %>
+    <%@include file="/WEB-INF/content/util/header_home.jsp" %>
     <div class="row">
         <div class="col-xs-12 col-sm-4">
             <%--页面布局，是登录框居中--%>

@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by qingyan on 16-7-28.
  */
@@ -27,7 +29,20 @@ public class IssueService extends HelpService<Issue> implements IIssueService {
      * @return Issue
      */
     @Override
-    public Issue getByGoods(int goodsId) {
-        return iIssueDAO.getByGoods(goodsId);
+    public Issue onDuobao(int goodsId) {
+        return iIssueDAO.onDuobao(goodsId);
+    }
+
+    /**
+     * 根据商品id获取已经夺宝完成的期
+     *
+     * @param goodsId 商品id
+     * @return List<Issue>
+     */
+    @Override
+    public List<Issue> outDuobao(int goodsId) {
+        return iIssueDAO.outDuobao(goodsId);
     }
 }
+
+

@@ -76,20 +76,48 @@
                 <li class="list-group-item text-center">
                     <strong>删除广告</strong>
                 </li>
-                <s:iterator var="l" value="#request.adPageBean.queryResultList" status="L">
-                    <li class="list-group-item text-center">
-                        <div class="row">
-                            <div class="col-xs-12 col-lg-9">
-                                <img src="${l.image}" width="140px" height="140px"/>
-                            </div>
 
-                            <div class="col-xs-12 col-lg-3">
+                <s:iterator var="l" value="#request.adPageBean.queryResultList" status="L">
+                <s:if test="%{#L.index%3==0}">
+                    <li class="list-group-item text-center">
+                    <div class="row">
+                </s:if>
+                    <div class="col-xs-12 col-lg-4">
+                        <div class="thumbnail">
+                            <img src="${l.image}"/>
+                            <div class="caption">
                                 <a class="btn btn-danger"
                                    href="${pageContext.request.contextPath}/ad/delete?adId=${l.id}">删除</a>
                             </div>
                         </div>
+                    </div>
+                <s:if test="%{#L.index%3==2 || #L.last}">
+                    </div>
                     </li>
+                </s:if>
+
                 </s:iterator>
+
+
+            <%--<s:iterator var="l" value="#request.adPageBean.queryResultList" status="L">--%>
+                    <%--<li class="list-group-item text-center">--%>
+                        <%--<div class="row">--%>
+                            <%--<div class="col-xs-12 col-lg-4">--%>
+                            <%--</div>--%>
+                            <%--<div class="col-xs-12 col-lg-4">--%>
+                                <%--<div class="thumbnail">--%>
+                                    <%--<img src="${l.image}"/>--%>
+                                    <%--<div class="caption">--%>
+                                        <%--<a class="btn btn-danger"--%>
+                                           <%--href="${pageContext.request.contextPath}/ad/delete?adId=${l.id}">删除</a>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-xs-12 col-lg-4">--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</s:iterator>--%>
 
             </ul>
         </div>

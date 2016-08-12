@@ -1,5 +1,6 @@
 package com.fozoto.duobao.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
@@ -34,8 +35,12 @@ public class Gamester implements Serializable{
     private int power;              // 用户权限
     private String city;            // 用户所在城市(由ip地址查询得到)
 
+    @JSONField(serialize=false)
     private List<Lucky> luckies;    // 用户的幸运商品
+    @JSONField(serialize=false)
     private List<Annal> annals;     // 用户的所有夺宝记录
+    @JSONField(serialize=false)
+    private Cart cart;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -200,5 +205,15 @@ public class Gamester implements Serializable{
                 ", power=" + power +
                 ", city='" + city + '\'' +
                 '}';
+    }
+
+    // Cart负责维护关系
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = Cart.class, mappedBy = "gamester")
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

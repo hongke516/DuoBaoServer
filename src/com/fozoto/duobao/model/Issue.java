@@ -28,6 +28,8 @@ public class Issue implements Serializable{
     private List<Annal> annal;        // 本期商品的夺宝所有记录
     @JSONField(serialize=false)
     private List<Number> numbers;   // 所有随机号码
+    @JSONField(serialize=false)
+    private Cart cart;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -131,5 +133,15 @@ public class Issue implements Serializable{
                 ", start='" + start + '\'' +
                 ", finish='" + finish + '\'' +
                 '}';
+    }
+
+    // Cart负责维护关系
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = Cart.class, mappedBy = "issue")
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

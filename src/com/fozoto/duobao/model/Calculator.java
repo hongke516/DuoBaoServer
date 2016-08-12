@@ -27,12 +27,12 @@ public class Calculator implements Serializable{
         return id;
     }
 
-    @OneToOne(targetEntity = Goods.class, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(targetEntity = Goods.class, cascade = CascadeType.REFRESH, optional = false)
     public Goods getGoods() {
         return goods;
     }
 
-    @OneToOne(targetEntity = Issue.class, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(targetEntity = Issue.class, cascade = CascadeType.REFRESH, optional = false)
     public Issue getIssue() {
         return issue;
     }

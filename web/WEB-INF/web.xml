@@ -48,4 +48,10 @@
         <!--<servlet-name>dispatcher</servlet-name>-->
         <!--<url-pattern>*.form</url-pattern>-->
     <!--</servlet-mapping>-->
+
+    <welcome-file-list>
+        <!--<welcome-file>/WEB-INF/jsp/blog/index.jsp</welcome-file>-->
+        <!--<welcome-file>/WEB-INF/empty.jsp</welcome-file>-->
+        <welcome-file>/WEB-INF/index.html</welcome-file>
+    </welcome-file-list>
 </web-app>

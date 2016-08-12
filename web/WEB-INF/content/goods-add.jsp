@@ -115,7 +115,7 @@
                             <li class="list-group-item">
                                 <label for="goodsTrait">额外描述</label>
                                 <input name="goods.trait" type="text" class="form-control" id="goodsTrait"
-                                       placeholder="请输入额外描述,如十元商品、百元商品、海购商品等,如果没有就不填写"/>
+                                       placeholder="请输入额外描述,如十元商品、百元商品、海购商品等的图片地址,如果没有就不填写"/>
                             </li>
 
                                 <%-- remind --%>
@@ -123,13 +123,6 @@
                                 <label for="goodsRemain">额外的红字提醒</label>
                                 <input name="goods.remind" type="text" class="form-control" id="goodsRemain"
                                        placeholder="请输入额外的红字提醒"/>
-                            </li>
-
-                            <li class="list-group-item">
-                                <label for="goodsExplains">重要说明</label>
-                                        <textarea name="goods.explains" rows="6" class="form-control"
-                                                  id="goodsExplains"
-                                                  placeholder="请输入重要说明（在详情图片最后有一段重要说明）"></textarea>
                             </li>
                         </ul>
 
@@ -146,6 +139,15 @@
                                 <label for="details">详情图片</label>
                                         <textarea name="inputDetails" rows="10" class="form-control" id="details"
                                                   placeholder="请输入该商品的详情图片地址(与http://1.163.com对应商品的详情图片地址),多个图片换行输入"></textarea>
+                            </li>
+                        </ul>
+
+                        <ul  class="list-group">
+                            <li class="list-group-item">
+                                <label for="goodsExplains">重要说明</label>
+                                        <textarea name="goods.explains" rows="6" class="form-control"
+                                                  id="goodsExplains"
+                                                  placeholder="请输入重要说明（在详情图片最后有一段重要说明）"></textarea>
                             </li>
                         </ul>
                     </div>

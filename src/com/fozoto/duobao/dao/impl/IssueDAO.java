@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Created by qingyan on 16-7-28.
@@ -22,9 +23,21 @@ public class IssueDAO extends HelpDAO<Issue> implements IIssueDAO {
      * @return Issue
      */
     @Override
-    public Issue getByGoods(int goodsId) {
-        String sql = "from Issue where over='true' and goods_id="+goodsId;
+    public Issue onDuobao(int goodsId) {
+        String sql = "from Issue where over='false' and goods_id="+goodsId;
         Query query=em.createQuery(sql);
         return (Issue)query.getResultList().get(0);
+    }
+
+    /**
+     * 根据商品id获取已经夺宝完成的期
+     * @param goodsId 商品id
+     * @return List<Issue>
+     */
+    @Override
+    public List<Issue> outDuobao(int goodsId) {
+        String sql = "from Issue where over='true' and goods_id="+goodsId;
+        Query query=em.createQuery(sql);
+        return query.getResultList();
     }
 }

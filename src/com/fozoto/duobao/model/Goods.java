@@ -35,7 +35,7 @@ public class Goods implements Serializable{
     @Expose
     private String explains; // 重要说明
     @Expose
-    private String available;    // 该商品是否参与夺宝(new新品/old下架)
+    private String available;    // 该商品是否参与夺宝(新品/下架)
     @Expose
     private String time;    // 商品创建时间
     @Expose
@@ -57,6 +57,8 @@ public class Goods implements Serializable{
     private List<Annal> annals;     // 本商品所有夺宝记录
     @JSONField(serialize=false)
     private List<Issue> issues;     // 本商品的期数
+    @JSONField(serialize=false)
+    private Cart cart;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -254,5 +256,15 @@ public class Goods implements Serializable{
                 ", retime='" + retime + '\'' +
                 ", cate='" + cate + '\'' +
                 '}';
+    }
+
+    // Cart负责维护关系
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = Cart.class, mappedBy = "goods")
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

@@ -38,12 +38,15 @@
                         ${promptInfo.message}
                     </li>
                     <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-12 col-lg-4"></div>
-                            <div class="col-xs-12 col-lg-4 text-center">
+                        <div class="row text-center">
+                            <div class="col-xs-12 col-lg-6">
+                                <s:if test="%{#request.promptInfo.togo!=null }">
+                                    <a href="${pageContext.request.contextPath}${promptInfo.togo}" class="btn btn-success">解决</a>
+                                </s:if>
+                            </div>
+                            <div class="col-xs-12 col-lg-6">
                                 <button type="button" class="btn btn-info" id="back">返回</button>
                             </div>
-                            <div class="col-xs-12 col-lg-4"></div>
                         </div>
                     </li>
                 </ul>

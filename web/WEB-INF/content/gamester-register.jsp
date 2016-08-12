@@ -26,7 +26,7 @@
             /*这个Landed_Gamester是在com.fozoto.duobao.model.Gamester定义的,在登录时加入session的*/
             if(${landingGamester!=null && landingGamester.power!=0}) {
                 //跳转到首页
-                window.location.href="${pageContext.request.contextPath}/goods";
+                window.location.href="${pageContext.request.contextPath}/";
             }
 
             /**
@@ -114,7 +114,7 @@
                                         //返回请求注册的页面
                                         var s = $.parseJSON(json);
                                         if (s.result == 'ok') {
-                                            window.location.href = "javascript:history.go(-1)";
+                                            window.location.href = "${pageContext.request.contextPath}/";
                                         }
                                     },
                                     error: function() {
@@ -138,7 +138,7 @@
 </head>
 <body>
 <div class="container">
-    <%@include file="util/header_gamester.jsp" %>
+    <%@include file="util/header_home.jsp" %>
     <div class="row">
         <div class="col-xs-12 col-sm-3">
             <%--页面布局，让注册框居中--%>

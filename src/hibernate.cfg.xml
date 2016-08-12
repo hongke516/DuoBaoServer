@@ -48,6 +48,7 @@
         <mapping class="com.fozoto.duobao.model.Gamester"/>
 		<mapping class="com.fozoto.duobao.model.Lottery"/>
 		<mapping class="com.fozoto.duobao.model.Ad"/>
+		<mapping class="com.fozoto.duobao.model.Cart"/>
 	</session-factory>
 
 </hibernate-configuration>

@@ -2,6 +2,8 @@ package com.fozoto.duobao.dao;
 
 import com.fozoto.duobao.model.Issue;
 
+import java.util.List;
+
 /**
  * Created by qingyan on 16-7-28.
  */
@@ -13,5 +15,12 @@ public interface IIssueDAO extends IHelpDAO<Issue> {
      * @param goodsId 商品id
      * @return Issue
      */
-    public Issue getByGoods(int goodsId);
+    public Issue onDuobao(int goodsId);
+
+    /**
+     * 根据商品id获取已经夺宝完成的期
+     * @param goodsId 商品id
+     * @return List<Issue>
+     */
+    public List<Issue> outDuobao(int goodsId);
 }
