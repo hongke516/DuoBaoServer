@@ -35,8 +35,8 @@
                                 <%-- intro --%>
                             <li class="list-group-item">
                                 <label for="goodsIntro">名称</label>
-                                <%--传递商品id--%>
-                                <input name="goods.id" value="${goods.id}" hidden="hidden" />
+                                    <%--传递商品id--%>
+                                <input name="goods.id" value="${goods.id}" hidden="hidden"/>
                                 <input name="goods.intro" type="text" class="form-control"
                                        id="goodsIntro" value="${goods.intro}"
                                        placeholder="请输入商品名称"/>
@@ -45,7 +45,7 @@
                                 <%-- image --%>
                             <li class="list-group-item">
                                 <label for="goodsImage">图片</label>
-                                <input name="goods.image" type="text"  value="${goods.image}"
+                                <input name="goods.image" type="text" value="${goods.image}"
                                        class="form-control" id="goodsImage"
                                        placeholder="请输入http://1.163.com/对应商品的图片地址"/>
                             </li>
@@ -79,12 +79,14 @@
                                         <label for="goodsAvailable">是否参与夺宝</label>
                                         <select class="form-control" name="goods.available" id="goodsAvailable">
                                             <s:if test="%{#request.goods.available=='新品'}">
-                                                <option class="form-select-button" selected="selected" value="新品">新品</option>
+                                                <option class="form-select-button" selected="selected" value="新品">新品
+                                                </option>
                                                 <option class="form-select-button" value="下架">下架</option>
                                             </s:if>
                                             <s:elseif test="%{#request.goods.available=='下架'}">
                                                 <option class="form-select-button" value="新品">新品</option>
-                                                <option class="form-select-button" selected="selected" value="下架">下架</option>
+                                                <option class="form-select-button" selected="selected" value="下架">下架
+                                                </option>
                                             </s:elseif>
                                         </select>
                                     </div>
@@ -121,7 +123,16 @@
                             <li class="list-group-item">
                                 <label for="shapes">滚动图片</label>
                                         <textarea name="inputShapes" rows="7" class="form-control" id="shapes"
-                                                  placeholder="请输入该商品的滚动图片地址(与http://1.163.com对应商品的滚动图片地址),多个图片换行输入"><s:iterator var="l" value="#request.shapes">${l.image}${line}</s:iterator></textarea>
+                                                  placeholder="请输入该商品的滚动图片地址(与http://1.163.com对应商品的滚动图片地址),多个图片换行输入"><s:iterator var="l" value="#request.pictures"><s:if test="%{#l.type==0}">${l.image}${line}</s:if></s:iterator></textarea>
+                            </li>
+                        </ul>
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <label for="previews">滚动图片的缩略图</label>
+                                        <textarea name="inputPreviews" rows="10" class="form-control" id="previews"
+                                                  placeholder="请输入该商品的详情图片地址(与http://1.163.com对应商品的详情图片地址),多个图片换行输入"><s:iterator var="l" value="#request.pictures"><s:if test="%{#l.type==2}">${l.image}${line}</s:if></s:iterator>
+                                        </textarea>
                             </li>
                         </ul>
 
@@ -129,7 +140,7 @@
                             <li class="list-group-item">
                                 <label for="details">详情图片</label>
                                         <textarea name="inputDetails" rows="10" class="form-control" id="details"
-                                                  placeholder="请输入该商品的详情图片地址(与http://1.163.com对应商品的详情图片地址),多个图片换行输入"><s:iterator var="l" value="#request.details">${l.image}${line}</s:iterator></textarea>
+                                                  placeholder="请输入该商品的详情图片地址(与http://1.163.com对应商品的详情图片地址),多个图片换行输入"><s:iterator var="l" value="#request.pictures"><s:if test="%{#l.type==2}">${l.image}${line}</s:if></s:iterator></textarea>
                             </li>
                         </ul>
                     </div>

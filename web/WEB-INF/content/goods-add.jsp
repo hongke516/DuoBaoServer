@@ -136,6 +136,14 @@
 
                         <ul class="list-group">
                             <li class="list-group-item">
+                                <label for="previews">滚动图片的缩略图</label>
+                                        <textarea name="inputPreviews" rows="7" class="form-control" id="previews"
+                                                  placeholder="请输入该商品的滚动图片的缩略图的地址(与http://1.163.com对应商品的滚动图片的缩略图地址),多个图片换行输入"></textarea>
+                            </li>
+                        </ul>
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
                                 <label for="details">详情图片</label>
                                         <textarea name="inputDetails" rows="10" class="form-control" id="details"
                                                   placeholder="请输入该商品的详情图片地址(与http://1.163.com对应商品的详情图片地址),多个图片换行输入"></textarea>

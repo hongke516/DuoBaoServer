@@ -15,6 +15,14 @@ public interface IBaseDAO<T> {
      * @throws Exception
      */
     void save(T t) throws Exception;
+
+    /**
+     * 保存实体的集合
+     * @param ts 实体得到几个
+     * @throws Exception
+     */
+    public void saveList(List<T> ts) throws Exception;
+
     /**
      * 更新实体
      * @param t 实体

@@ -39,6 +39,10 @@ public class BaseAction extends ActionSupport{
         promptInfo.setTogo("${pageContext.request.contextPath}/gamester/login");
     }
 
+    protected boolean checkInt(int i) {
+        return i > 0 && i < 2147483647;
+    }
+
     public Gamester getLandedGamester() {
         return landedGamester;
     }

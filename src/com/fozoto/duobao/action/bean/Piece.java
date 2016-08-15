@@ -8,10 +8,12 @@ public class Piece {
     private String intro;   // 商品介绍
     private String image;   // 商品的图片
     private String trait;   // 商品额外描述图片地址
+    private String remind;  // 额外的红字提醒
+    private String explains;    // 重要提醒
     private int total;      // 商品总需人次
     private int done;       // 商品已完成购买人次
     private int last;       // 商品剩余人次
-    private int degree;     // 商品进度
+    private float degree;     // 商品进度
     private int goodsId;    // 哪个商品
     private int issueId;    // 哪一期
     private int page;       // 当前第几页
@@ -35,7 +37,7 @@ public class Piece {
         return done;
     }
 
-    public int getDegree() {
+    public float getDegree() {
         return degree;
     }
 
@@ -63,7 +65,7 @@ public class Piece {
         this.done = done;
     }
 
-    public void setDegree(int degree) {
+    public void setDegree(float degree) {
         this.degree = degree;
     }
 
@@ -123,12 +125,30 @@ public class Piece {
         this.all = all;
     }
 
+    public String getRemind() {
+        return remind;
+    }
+
+    public void setRemind(String remind) {
+        this.remind = remind;
+    }
+
+    public String getExplains() {
+        return explains;
+    }
+
+    public void setExplains(String explains) {
+        this.explains = explains;
+    }
+
     @Override
     public String toString() {
         return "Piece{" +
                 "intro='" + intro + '\'' +
                 ", image='" + image + '\'' +
                 ", trait='" + trait + '\'' +
+                ", remind='" + remind + '\'' +
+                ", explains='" + explains + '\'' +
                 ", total=" + total +
                 ", done=" + done +
                 ", last=" + last +

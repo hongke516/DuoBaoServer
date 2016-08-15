@@ -9,6 +9,7 @@
 <html>
 <head>
     <%@include file="util/dependences.jsp" %>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/fozoto.css"/>
     <title>商品详情</title>
     <script>
         $(document).ready(function(){
@@ -262,6 +263,7 @@
                         </div>
                     </div>
 
+                    <%--滚动图片--%>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -271,14 +273,38 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <s:iterator var="s" value="#request.shapes">
-                                    <li class="list-group-item text-center auto">
-                                        <img src="<s:property value="#s.image"/>"/>
-                                    </li>
+                                <s:iterator var="s" value="#request.pictures">
+                                    <s:if test="%{#s.type==0}">
+                                        <li class="list-group-item text-center auto">
+                                            <img src="<s:property value="#s.image"/>"/>
+                                        </li>
+                                    </s:if>
                                 </s:iterator>
                             </ul>
                         </div>
                     </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <%--<div class="text-center">${promptInfo.title}</div>--%>
+                                <div class="text-center">滚动图片</div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <s:iterator var="s" value="#request.pictures">
+                                    <s:if test="%{#s.type==1}">
+                                        <div class="col-lg-2dot4">
+                                            <img src="<s:property value="#s.image"/>"/>
+                                        </div>
+                                    </s:if>
+                                </s:iterator>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--详情图片--%>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -288,10 +314,12 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <s:iterator var="s" value="#request.details">
-                                    <li class="list-group-item text-center auto">
-                                        <img src="<s:property value="#s.image"/>"/>
-                                    </li>
+                                <s:iterator var="s" value="#request.pictures">
+                                    <s:if test="%{#s.type==2}">
+                                        <li class="list-group-item text-center auto">
+                                            <img src="<s:property value="#s.image"/>"/>
+                                        </li>
+                                    </s:if>
                                 </s:iterator>
                             </ul>
                         </div>

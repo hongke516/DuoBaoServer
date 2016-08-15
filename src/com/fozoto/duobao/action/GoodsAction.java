@@ -2,29 +2,20 @@ package com.fozoto.duobao.action;
 
 import com.fozoto.duobao.core.util.TimeUtil;
 import com.fozoto.duobao.model.*;
-import com.fozoto.duobao.service.IDetailService;
-import com.fozoto.duobao.service.IGoodsService;
-import com.fozoto.duobao.service.IIssueService;
-import com.fozoto.duobao.service.IShapeService;
+import com.fozoto.duobao.service.*;
 import com.fozoto.duobao.util.entity.PageBean;
 import com.fozoto.duobao.util.entity.PromptInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.opensymphony.xwork2.ActionSupport;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,11 +25,8 @@ import java.util.List;
 @Controller("GoodsAction")
 @Scope("prototype")
 @ParentPackage(value = "json-default")
-//@Results({
-//        @Result(name = "error", location = "/WEB-INF/content/util/error.jsp")
-//})
 @Results({
-        @Result(name = "error", location = "/android/error", type = "redirect"),
+        @Result(name = "error", location = "/WEB-INF/content/util/prompt-info.jsp"),
         @Result(name = "power", location = "/WEB-INF/content/util/prompt-info.jsp")
 })
 public class GoodsAction extends BaseAction {
@@ -65,8 +53,6 @@ public class GoodsAction extends BaseAction {
     // 控制修改多个Shape和Detail,在textarea换行
     private String line;
 
-
-
     @Autowired
     public PageBean<Goods> goodsPage;
 
@@ -75,12 +61,13 @@ public class GoodsAction extends BaseAction {
 
     // 前台输入的商品滚动图片,以换行分割
     public String inputShapes;
+    // 前台输入的商品滚动图片的缩略图,以换行分割
+    public String inputPreviews;
     // 前台输入的商品详情图片,以换行分割
     public String inputDetails;
 
-    private List<Shape> shapes;
-
-    private List<Detail> details;
+    // 商品的图片
+    private List<Picture> pictures;
 
     @Autowired
     public PromptInfo promptInfo;
@@ -88,20 +75,17 @@ public class GoodsAction extends BaseAction {
     @Resource(name = "GoodsService")
     private IGoodsService goodsService;
 
-    @Resource(name = "ShapeService")
-    private IShapeService shapeService;
-
-    @Resource(name = "DetailService")
-    private IDetailService detailService;
+    @Resource(name = "PictureService")
+    private IPictureService pictureService;
 
     /**
      * 新增商品
      */
     @Action(value = "create",
-            results = {@Result(name = SUCCESS, location = "detail", type = "redirectAction", params = {"goodsId", "${goodsId}", "promptInfo.title", "${promptInfo.title}"}),
-                    @Result(name = ERROR, location = "/WEB-INF/content/util/error.jsp"),
-                    @Result(name = INPUT, location = "/WEB-INF/content/goods.jsp"),})
-    public String create() throws Exception {
+            results = {
+                    @Result(name = SUCCESS, location = "detail", type = "redirectAction", params = {"goodsId", "${goodsId}"}),
+            })
+    public String create(){
         // 管理员权限,才能操作
         if (adminPower()) {
             if (goods != null) {
@@ -111,58 +95,26 @@ public class GoodsAction extends BaseAction {
                     goods.setTime(TimeUtil.getTime().toString());
                     goods.setRetime(TimeUtil.getTime().toString());
                     // 保存商品
-                    boolean flag = goodsService.add(goods);
+                    boolean flag;
+                    try {
+                        flag = goodsService.add(goods);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        promptInfo.setTitle("保存商品失败");
+                        promptInfo.setMessage("请检查输入信息是否有误!");
+                        return ERROR;
+                    }
                     if (flag) {
-                        // 依赖商品先建立,然后才能保存Shape
-                        if (!StringUtils.isEmpty(inputShapes)) {
-                            //log.debug("inputShapes={" + inputShapes + "}");
-                            String[] shapeImages = inputShapes.split("\r\n");
-                            shapes = new ArrayList<>();
-                            for (String image : shapeImages) {
-                                if (image.length() < 255) {
-                                    //log.debug("image=" + image);
-                                    Shape shape = new Shape();
-                                    shape.setGoods(goods);
-                                    shape.setImage(image);
-                                    // 保存商品滚动图片到数据库
-                                    if (shapeService.add(shape))
-                                        // 保存商品滚动图片成功后, 返回给前台查看保存结果
-                                        shapes.add(shape);
-                                    else {
-                                        return ERROR;
-                                    }
-                                } else {
-                                    promptInfo.setTitle("输入图片地址太长!");
-                                    promptInfo.setMessage("输入图片地址大于255个字节,请重新输入!");
-                                }
-                            }
+
+                        try {
+                            savePictures(pictures);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return ERROR;
                         }
 
-                        // 依赖商品先建立,然后才能保存Detail
-                        if (!StringUtils.isEmpty(inputDetails)) {
-                            //log.debug("inputDetails={" + inputDetails + "}");
-                            String[] detailImages = inputDetails.split("\n");
-                            details = new ArrayList<>();
-                            for (String image : detailImages) {
-                                if (image.length() < 255) {
-                                    //log.debug("image=" + image);
-                                    Detail detail = new Detail();
-                                    detail.setGoods(goods);
-                                    detail.setImage(image);
-                                    // 保存商品详情图片到数据库
-                                    if (detailService.add(detail)) {
-                                        details.add(detail);
-                                    } else {
-                                        return ERROR;
-                                    }
-
-                                } else {
-                                    promptInfo.setTitle("输入图片地址太长!");
-                                    promptInfo.setMessage("输入图片地址大于255个字节,请重新输入!");
-                                }
-                            }
-                        }
                         promptInfo.setTitle("商品添加成功！");
+                        promptInfo.setMessage("恭喜您商品添加成功!");
                         goodsId = goods.getId();
 
                         // 商品保存后,该商品的夺宝就开始了
@@ -171,8 +123,16 @@ public class GoodsAction extends BaseAction {
                         issue.setStart(TimeUtil.getTime().toString());
                         issue.setOver("false");
                         issue.setDone(0);
-                        if (issueService.add(issue)) {
-                            return SUCCESS;
+
+                        try {
+                            if (issueService.add(issue)) {
+                                return SUCCESS;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            promptInfo.setTitle("保存新的一期错误!");
+                            promptInfo.setMessage("新的一期开始时出现错误!");
+                            return ERROR;
                         }
                     }
                 }
@@ -194,14 +154,11 @@ public class GoodsAction extends BaseAction {
         if (checkInt(goodsId)) {
             goods = goodsService.get(Goods.class, goodsId);
             if (goods != null) {
-                shapes = shapeService.getByGoods(Shape.class, goodsId);
-                details = detailService.getByGoods(Detail.class, goodsId);
-                promptInfo.setTitle("商品查询结果");
-                if (shapes != null && details != null) {
+                pictures = pictureService.getByGoods(Picture.class, goodsId);
+                if (pictures != null) {
                     return SUCCESS;
                 }
             }
-
         }
         return ERROR;
     }
@@ -251,7 +208,7 @@ public class GoodsAction extends BaseAction {
         // log.debug("进入cate了, 要查询的分类信息为sort=" + sort + ", page="+page+", size=" + size);
 
         if (checkInt(page) && checkInt(size) && !StringUtils.isEmpty(sort)) {
-            String whereSql = " cate="+sort;
+            String whereSql = " cate=" + sort;
             goodsPage = goodsService.getPaginationService(Goods.class, page, size, whereSql, null);
             if (goodsPage != null) {
                 // log.debug("总共有" + goodsPage.getAllRows() + "条记录");
@@ -324,10 +281,9 @@ public class GoodsAction extends BaseAction {
             if (goodsId > 0 && goodsId < 2147483647) {
                 goods = goodsService.get(Goods.class, goodsId);
                 if (goods != null) {
-                    shapes = shapeService.getByGoods(Shape.class, goodsId);
-                    details = detailService.getByGoods(Detail.class, goodsId);
+                    pictures = pictureService.getByGoods(Picture.class, goodsId);
                     line = "\n";
-                    if (shapes != null && details != null) {
+                    if (pictures != null) {
                         return SUCCESS;
                     }
                 }
@@ -340,13 +296,13 @@ public class GoodsAction extends BaseAction {
     }
 
     @Action(value = "alter",
-            results = {@Result(name = SUCCESS, location = "detail", type = "redirectAction", params = {"goodsId", "${goods.id}", "promptInfo.title", "${promptInfo.title}"}),
+            results = {@Result(name = SUCCESS, location = "detail", type = "redirectAction", params = {"goodsId", "${goods.id}"}),
                     @Result(name = INPUT, location = "/WEB-INF/content/goods.jsp")})
     public String alter() {
         // 管理员权限,才能操作
         if (adminPower()) {
             if (goods != null) {
-                log.debug("需要更新的商品id为:" + goods.getId());
+//                log.debug("需要更新的商品id为:" + goods.getId());
                 Goods alterGoods = goodsService.get(Goods.class, goods.getId());
                 if (alterGoods != null) {
                     alterGoods.setPer(goods.getPer());
@@ -364,7 +320,17 @@ public class GoodsAction extends BaseAction {
                     try {
                         boolean flag = goodsService.update(alterGoods);
                         if (flag) {
-                            return SUCCESS;
+                            // 删除该商品的所有图片
+                            boolean isSuccess = pictureService.deleteByGoods(Picture.class, alterGoods.getId());
+                            if (isSuccess) {
+                                try {
+                                    savePictures(pictures);
+                                    return SUCCESS;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    return ERROR;
+                                }
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -379,17 +345,12 @@ public class GoodsAction extends BaseAction {
     }
 
 
-
     public String getLine() {
         return line;
     }
 
     public void setLine(String line) {
         this.line = line;
-    }
-
-    private boolean checkInt(int i) {
-        return i > 0 && i < 2147483647;
     }
 
     /**
@@ -410,6 +371,92 @@ public class GoodsAction extends BaseAction {
             }
         }
         return false;
+    }
+
+    private void savePictures(List<Picture> pictures) throws Exception{
+        pictures = new ArrayList<>();
+        // 依赖商品先建立,然后才能保存滚动图片
+        if (!StringUtils.isEmpty(inputShapes)) {
+            //log.debug("inputShapes={" + inputShapes + "}");
+            String[] shapeImages = inputShapes.split("\r\n");
+            for (String image : shapeImages) {
+                if (!StringUtils.isEmpty(image) && image.length() < 255) {
+                    //log.debug("image=" + image);
+                    Picture shapePicture = new Picture();
+                    shapePicture.setImage(image);
+                    shapePicture.setType(Picture.SHAPE);
+                    shapePicture.setGoods(goods);
+                    if (pictureService.add(shapePicture)) {
+                        pictures.add(shapePicture);
+                    } else {
+                        promptInfo.setTitle("保存滚动图片失败!");
+                        promptInfo.setMessage("保存滚动图片失败!,请检查输入是否有误!");
+                    }
+                } else {
+                    promptInfo.setTitle("输入图片地址太长!");
+                    promptInfo.setMessage("滚动图片的输入图片地址大于255个字节,请重新输入!");
+
+                }
+            }
+        } else {
+            promptInfo.setTitle("滚动图片不能为空");
+            promptInfo.setMessage("对不起, 滚动图片还未输入!");
+
+        }
+
+        // 依赖商品先建立,然后才能保存滚动图片的缩略图
+        if (!StringUtils.isEmpty(inputPreviews)) {
+            //log.debug("inputPreviews={" + inputPreviews + "}");
+            String[] previewsImages = inputPreviews.split("\r\n");
+            for (String image : previewsImages) {
+                if (!StringUtils.isEmpty(image) && image.length() < 255) {
+                    //log.debug("image=" + image);
+                    Picture previewPicture = new Picture();
+                    previewPicture.setImage(image);
+                    previewPicture.setType(Picture.PREVIEW);
+                    previewPicture.setGoods(goods);
+                    if (pictureService.add(previewPicture)) {
+                        pictures.add(previewPicture);
+                    } else {
+                        promptInfo.setTitle("保存缩略图片失败!");
+                        promptInfo.setMessage("保存滚动的缩略图片失败!,请检查输入是否有误!");
+                    }
+                } else {
+                    promptInfo.setTitle("输入图片地址太长!");
+                    promptInfo.setMessage("缩略图的输入图片地址大于255个字节,请重新输入!");
+                }
+            }
+        } else {
+            promptInfo.setTitle("缩略图不能为空");
+            promptInfo.setMessage("对不起, 滚动图片的缩略图还未输入!");
+        }
+
+        // 依赖商品先建立,然后才能保存商品详情图片
+        if (!StringUtils.isEmpty(inputDetails)) {
+            //log.debug("inputDetails={" + inputDetails + "}");
+            String[] detailImages = inputDetails.split("\r\n");
+            for (String image : detailImages) {
+                if (!StringUtils.isEmpty(image) && image.length() < 255) {
+                    //log.debug("image=" + image);
+                    Picture detailPicture = new Picture();
+                    detailPicture.setGoods(goods);
+                    detailPicture.setType(Picture.DETAILS);
+                    detailPicture.setImage(image);
+                    if (pictureService.add(detailPicture)) {
+                        pictures.add(detailPicture);
+                    } else {
+                        promptInfo.setTitle("保存详情图片失败!");
+                        promptInfo.setMessage("保存详情图片失败!,请检查输入是否有误!");
+                    }
+                } else {
+                    promptInfo.setTitle("输入图片地址太长!");
+                    promptInfo.setMessage("详情图片的输入图片地址大于255个字节,请重新输入!");
+                }
+            }
+        } else {
+            promptInfo.setTitle("详情图片不能为空");
+            promptInfo.setMessage("对不起, 详情图片还未输入!");
+        }
     }
 
     public Goods getGoods() {
@@ -442,22 +489,6 @@ public class GoodsAction extends BaseAction {
 
     public void setPromptInfo(PromptInfo promptInfo) {
         this.promptInfo = promptInfo;
-    }
-
-    public List<Detail> getDetails() {
-        return details;
-    }
-
-    public void setDetails(List<Detail> details) {
-        this.details = details;
-    }
-
-    public List<Shape> getShapes() {
-        return shapes;
-    }
-
-    public void setShapes(List<Shape> shapes) {
-        this.shapes = shapes;
     }
 
     public int getGoodsId() {
@@ -506,5 +537,21 @@ public class GoodsAction extends BaseAction {
 
     public void setSort(String sort) {
         this.sort = sort;
+    }
+
+    public String getInputPreviews() {
+        return inputPreviews;
+    }
+
+    public void setInputPreviews(String inputPreviews) {
+        this.inputPreviews = inputPreviews;
+    }
+
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
     }
 }

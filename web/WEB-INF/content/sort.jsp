@@ -109,9 +109,9 @@
             </s:if>
             <div class="col-xs-12 col-lg-3">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"

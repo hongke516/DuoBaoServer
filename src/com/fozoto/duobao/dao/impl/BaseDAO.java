@@ -48,6 +48,19 @@ public class BaseDAO<T extends Serializable> implements IBaseDAO<T> {
     }
 
     /**
+     * 保存实体的集合
+     *
+     * @param ts 实体得到几个
+     * @throws Exception
+     */
+    @Override
+    public void saveList(List<T> ts) throws Exception {
+        for (T t : ts) {
+            save(t);
+        }
+    }
+
+    /**
      * 更新实体
      * @param t 实体
      */

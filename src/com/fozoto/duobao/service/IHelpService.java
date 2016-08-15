@@ -46,4 +46,12 @@ public interface IHelpService<T> extends IBaseService<T> {
      * @return T
      */
     public T getByIssue(Class<T> clazz, int id, int issueId);
+
+    /**
+     * 根据商品id进行删除T
+     * @param clazz T
+     * @param goodsId 商品id
+     * @return true成功删除/false删除失败
+     */
+    public boolean deleteByGoods(Class<T> clazz, int goodsId);
 }

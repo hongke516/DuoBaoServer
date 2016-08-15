@@ -97,7 +97,7 @@
         <!--导航-->
         <div class="collapse navbar-collapse navbar-header-collapse pull-right">
             <ul class="nav navbar-nav">
-                <li><a rel="nofollow" href="http://1.163.com">负责声明:本站夺宝是模仿网易一元夺宝,只为学习交流,非盈利目的.</a></li>
+                <li><a rel="nofollow" href="http://1.163.com">免责声明:本站夺宝是模仿网易一元夺宝,只为学习交流,非盈利目的.</a></li>
                 <li><a rel="nofollow" href="https://github.com/fozoto/DuoBaoServer">项目托管</a></li>
             </ul>
 

@@ -206,9 +206,9 @@
         <s:iterator var="l" value="#request.greatPiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"
@@ -252,9 +252,9 @@
         <s:iterator var="l" value="#request.phonePiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"
@@ -298,9 +298,9 @@
         <s:iterator var="l" value="#request.pcPiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"
@@ -344,9 +344,9 @@
         <s:iterator var="l" value="#request.digitalPiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"
@@ -390,9 +390,9 @@
         <s:iterator var="l" value="#request.womenPiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"
@@ -436,9 +436,9 @@
         <s:iterator var="l" value="#request.foodPiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"
@@ -482,9 +482,9 @@
         <s:iterator var="l" value="#request.newPiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"
@@ -528,9 +528,9 @@
         <s:iterator var="l" value="#request.yiPiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"
@@ -574,9 +574,9 @@
         <s:iterator var="l" value="#request.otherPiece" status="L">
             <div class="col-lg-2dot4 none-padding">
                 <div class="thumbnail">
-                    <img src="${l.image}"/>
+                    <a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}"><img src="${l.image}"/></a>
                     <div class="caption">
-                        <p>${l.intro}</p>
+                        <p><a href="${pageContext.request.contextPath}/detail?goodsId=${l.goodsId}">${l.intro}</a></p>
                         <p>总需:${l.total}人次</p>
                         <div class="progress">
                             <div class="progress-bar progress-bar-warning" role="progressbar"

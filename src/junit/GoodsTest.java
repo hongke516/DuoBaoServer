@@ -2,14 +2,12 @@ package junit;
 
 import com.fozoto.duobao.action.GoodsAction;
 import com.fozoto.duobao.core.util.TimeUtil;
-import com.fozoto.duobao.model.Detail;
 import com.fozoto.duobao.model.Goods;
 import com.fozoto.duobao.model.Issue;
-import com.fozoto.duobao.model.Shape;
-import com.fozoto.duobao.service.IDetailService;
+import com.fozoto.duobao.model.Picture;
 import com.fozoto.duobao.service.IGoodsService;
 import com.fozoto.duobao.service.IIssueService;
-import com.fozoto.duobao.service.IShapeService;
+import com.fozoto.duobao.service.IPictureService;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,13 +33,10 @@ public class GoodsTest {
     private IGoodsService goodsService;
 
     @Autowired
-    private IShapeService shapeService;
-
-    @Autowired
-    private IDetailService detailService;
-
-    @Autowired
     private IIssueService issueService;
+
+    @Autowired
+    private IPictureService pictureService;
 
     @Test
     public void testAddAllCateGoods() {
@@ -68,9 +63,9 @@ public class GoodsTest {
         goods.setTrait("http://mimg.127.net/p/one/web/lib/img/common/icon/icon_tens_goods.png?render_my=1");
         goods.setTime(TimeUtil.getTime().toString());
         goods.setRetime(TimeUtil.getTime().toString());
-
+        boolean flag = false;
         try {
-            goodsService.add(goods);
+            flag = goodsService.add(goods);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,16 +77,13 @@ public class GoodsTest {
                 "https://onegoods.nosdn.127.net/goods/2351/2f787b425601e51a3f5a2b295e562ef3.jpg"
         };
 
-        for (String shapeImage : shapeImages) {
-            Shape shape = new Shape();
-            shape.setImage(shapeImage);
-            shape.setGoods(goods);
-            try {
-                shapeService.add(shape);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        String[] previews = {
+                "https://onegoods.nosdn.127.net/goods/2351/8d9b0b1b4b1e64b34af7e645469d52df.jpg",
+                "https://onegoods.nosdn.127.net/goods/2351/1273ea2148a55af999d22dc3d2135424.jpg",
+                "https://onegoods.nosdn.127.net/goods/2351/ce1eac60b0cfad3272f77b2d0e838d02.jpg",
+                "https://onegoods.nosdn.127.net/goods/2351/caa2bf1020f732cf08f63176be966471.jpg",
+                "https://onegoods.nosdn.127.net/goods/2351/c458d3175b0351d664938cacc20e935e.jpg"
+        };
 
         String[] detailImages = {
                 "https://onegoods.nosdn.127.net/goods/2351/af37c62504227f3c0fb05e8cec8ea1d5.jpg",
@@ -106,30 +98,57 @@ public class GoodsTest {
                 "https://onegoods.nosdn.127.net/goods/2351/0249622b05b5a1d2fd6d73e62099d49b.jpg"
         };
 
-        for (String detailImage : detailImages ) {
-            Detail detail = new Detail();
-            detail.setImage(detailImage);
-            detail.setGoods(goods);
+        if (flag) {
+            for (String image:shapeImages) {
+                Picture picture = new Picture();
+                picture.setGoods(goods);
+                picture.setImage(image);
+                picture.setType(0);
+                try {
+                    pictureService.add(picture);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for (String image:previews) {
+                Picture picture = new Picture();
+                picture.setGoods(goods);
+                picture.setImage(image);
+                picture.setType(1);
+                try {
+                    pictureService.add(picture);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for (String image:detailImages) {
+                Picture picture = new Picture();
+                picture.setGoods(goods);
+                picture.setImage(image);
+                picture.setType(2);
+                try {
+                    pictureService.add(picture);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // 商品是新品, 新的一期就开始了.
+            Issue issue = new Issue();
+            issue.setGoods(goods);
+            issue.setOver("false");
+            issue.setDone(100);
+            issue.setStart(TimeUtil.getTime().toString());
+
             try {
-                detailService.add(detail);
+                issueService.add(issue);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         }
-
-        // 商品是新品, 新的一期就开始了.
-        Issue issue = new Issue();
-        issue.setGoods(goods);
-        issue.setOver("false");
-        issue.setDone(100);
-        issue.setStart(TimeUtil.getTime().toString());
-
-        try {
-            issueService.add(issue);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         System.out.println("测试通过");
     }
 

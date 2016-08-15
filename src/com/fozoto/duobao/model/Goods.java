@@ -48,10 +48,6 @@ public class Goods implements Serializable{
     @JSONField(serialize=false)
     private List<Number> numbers;   // 商品所有的夺宝号码
     @JSONField(serialize=false)
-    private List<Detail> details;   // 商品的图片描述详情
-    @JSONField(serialize=false)
-    private List<Shape> shapes;     // 商品的形状,用以向用户展示商品
-    @JSONField(serialize=false)
     private Calculator calculator;  // 本商品的计算详情
     @JSONField(serialize=false)
     private List<Annal> annals;     // 本商品所有夺宝记录
@@ -59,6 +55,8 @@ public class Goods implements Serializable{
     private List<Issue> issues;     // 本商品的期数
     @JSONField(serialize=false)
     private Cart cart;
+    @JSONField(serialize=false)
+    private List<Picture> pictures;        // 商品的图片描述
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -113,18 +111,6 @@ public class Goods implements Serializable{
         return numbers;
     }
 
-    // Detail负责维护关系
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = Detail.class, mappedBy = "goods")
-    public List<Detail> getDetails() {
-        return details;
-    }
-
-    // Shape负责维护关系
-    @OneToMany(targetEntity = Shape.class, cascade = CascadeType.ALL, mappedBy = "goods")
-    public List<Shape> getShapes() {
-        return shapes;
-    }
-
     // Calculator负责维护关系
     @OneToOne(cascade = CascadeType.ALL, targetEntity = Calculator.class, mappedBy = "goods")
     public Calculator getCalculator() {
@@ -143,6 +129,18 @@ public class Goods implements Serializable{
         return issues;
     }
 
+    // Picture负责维护关系
+    @OneToMany(targetEntity = Picture.class, cascade = CascadeType.ALL, mappedBy = "goods")
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    // Cart负责维护关系
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = Cart.class, mappedBy = "goods")
+    public Cart getCart() {
+        return cart;
+    }
+
     public String getAvailable() {
         return available;
     }
@@ -157,6 +155,14 @@ public class Goods implements Serializable{
 
     public String getCate() {
         return cate;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
     }
 
     public void setTime(String time) {
@@ -177,14 +183,6 @@ public class Goods implements Serializable{
 
     public void setCalculator(Calculator calculator) {
         this.calculator = calculator;
-    }
-
-    public void setShapes(List<Shape> shapes) {
-        this.shapes = shapes;
-    }
-
-    public void setDetails(List<Detail> details) {
-        this.details = details;
     }
 
     public void setNumbers(List<Number> numbers) {
@@ -258,13 +256,4 @@ public class Goods implements Serializable{
                 '}';
     }
 
-    // Cart负责维护关系
-    @OneToOne(cascade = CascadeType.ALL, targetEntity = Cart.class, mappedBy = "goods")
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 }

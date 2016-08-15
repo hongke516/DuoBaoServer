@@ -22,9 +22,7 @@ import java.util.List;
 /**
  * Created by qingyan on 16-8-10.
  */
-@Service("HomeService")
-@Transactional
-@Scope("prototype")
+@Service("IndexService")
 public class IndexService {
     private Logger log = Logger.getLogger(IndexService.class);
 
@@ -114,7 +112,7 @@ public class IndexService {
      * @param issue 期
      * @return Piece
      */
-    private Piece getPiece(Goods goods, Issue issue, PageBean<Goods> goodsPageBean) {
+    private Piece loadPiece(Goods goods, Issue issue, PageBean<Goods> goodsPageBean) {
         if (goods != null && issue != null) {
             Piece piece = new Piece();
             piece.setIntro(goods.getIntro());
@@ -136,6 +134,25 @@ public class IndexService {
             return piece;
         }
         return null;
+    }
+
+    public Piece getPiece(Goods goods, Issue issue) {
+        Piece piece = new Piece();
+        piece.setIntro(goods.getIntro());
+        piece.setImage(goods.getImage());
+        piece.setRemind(goods.getRemind());
+        piece.setExplains(goods.getExplains());
+        piece.setDone(issue.getDone());
+        piece.setTotal(goods.getTotal());
+        piece.setGoodsId(goods.getId());
+        piece.setIssueId(issue.getId());
+        piece.setTrait(goods.getTrait());
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        // 设置精确到小数点后2位
+        numberFormat.setMaximumFractionDigits(1);
+        piece.setDegree(Float.parseFloat(numberFormat.format((float)issue.getDone()/(float)goods.getTotal()*100)));
+        piece.setLast(goods.getTotal()-issue.getDone());
+        return piece;
     }
 
     public List<Piece> listPieceByCate(int page, int size, String cate) {
@@ -202,7 +219,7 @@ public class IndexService {
         if (goodses.size()>0 && issues.size()>0 && (goodses.size() == issues.size())) {
             List<Piece> pieces = new ArrayList<>();
             for (int i=0; i<goodses.size(); i++) {
-                Piece piece = getPiece(goodses.get(i), issues.get(i), goodsPageBean);
+                Piece piece = loadPiece(goodses.get(i), issues.get(i), goodsPageBean);
                 pieces.add(piece);
             }
             return pieces;

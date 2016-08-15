@@ -18,6 +18,13 @@ public interface IBaseService<T> {
     boolean add(T t) throws Exception;
 
     /**
+     * 保存实体的集合
+     * @param ts 实体得到几个
+     * @throws Exception
+     */
+    public boolean addList(List<T> ts) throws Exception;
+
+    /**
      * 从数据库删除对象
      * @param entityClass 删除对象的class
      * @param entityId 根据对象的id进行删除

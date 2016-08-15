@@ -44,10 +44,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Hibernate-4.3.11" level="application" />
-    <orderEntry type="library" name="Struts-2.3.24" level="application" />
-    <orderEntry type="library" name="Spring-4.2.4" level="application" />
-    <orderEntry type="library" name="s2shLib" level="application" />
-    <orderEntry type="library" name="servlet-api" level="project" />
+    <orderEntry type="library" exported="" name="Hibernate-4.3.11" level="application" />
+    <orderEntry type="library" exported="" name="Struts-2.3.24" level="application" />
+    <orderEntry type="library" exported="" name="Spring-4.2.4" level="application" />
+    <orderEntry type="library" exported="" name="s2shLib" level="application" />
+    <orderEntry type="library" exported="" name="servlet-api" level="project" />
   </component>
 </module>

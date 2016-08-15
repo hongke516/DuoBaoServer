@@ -5,7 +5,10 @@ import com.fozoto.duobao.action.service.IndexService;
 import com.fozoto.duobao.model.Ad;
 import com.fozoto.duobao.model.Goods;
 import com.fozoto.duobao.model.Issue;
+import com.fozoto.duobao.model.Picture;
 import com.fozoto.duobao.service.IGoodsService;
+import com.fozoto.duobao.service.IIssueService;
+import com.fozoto.duobao.service.IPictureService;
 import com.fozoto.duobao.util.entity.PageBean;
 import com.fozoto.duobao.util.entity.PromptInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -71,6 +74,21 @@ public class IndexAction extends BaseAction {
     private List<Piece> sortPiece;
     private int num;    // 总页数
     private int all;    // 总记录数
+
+    /**
+     * 详情
+     */
+    private Issue issue;
+    private List<Picture> pictures;
+    private Piece piece;
+    private int goodsId;
+    @Resource(name = "GoodsService")
+    private IGoodsService goodsService;
+    @Resource(name = "IssueService")
+    private IIssueService issueService;
+    @Resource(name = "PictureService")
+    private IPictureService pictureService;
+
 
     @Autowired
     private IndexService indexService;
@@ -156,6 +174,9 @@ public class IndexAction extends BaseAction {
         return SUCCESS;
     }
 
+    /**
+     * 按商品类型分类
+     */
     @Action(value = "cate", results = {
             @Result(location = "/WEB-INF/content/sort.jsp")
     })
@@ -171,6 +192,9 @@ public class IndexAction extends BaseAction {
         return ERROR;
     }
 
+    /**
+     * 所有商品分类
+     */
     @Action(value = "all", results = {
             @Result(location = "/WEB-INF/content/sort.jsp")
     })
@@ -181,6 +205,26 @@ public class IndexAction extends BaseAction {
             all = sortPiece.get(0).getAll();
             return SUCCESS;
         }
+        return ERROR;
+    }
+
+    @Action(value = "detail", results = {
+            @Result(location = "/WEB-INF/content/detail.jsp")
+    })
+    public String detail() {
+        if (checkInt(goodsId)) {
+            Goods goods = goodsService.get(Goods.class, goodsId);
+            Issue issue = issueService.onDuobao(goodsId);
+            if (goods!=null && issue!=null) {
+                piece = indexService.getPiece(goods, issue);
+                pictures = pictureService.getByGoods(Picture.class, goodsId);
+                if (piece != null && pictures!=null) {
+                    return SUCCESS;
+                }
+            }
+        }
+        promptInfo.setTitle("商品信息出现错误!");
+        promptInfo.setMessage("请联系我方工作人员,将尽快修复!");
         return ERROR;
     }
 
@@ -318,5 +362,37 @@ public class IndexAction extends BaseAction {
 
     public void setAll(int all) {
         this.all = all;
+    }
+
+    public Issue getIssue() {
+        return issue;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
+
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
+    }
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
+
+    public int getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
     }
 }

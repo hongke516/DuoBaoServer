@@ -39,6 +39,23 @@ public class BaseService<T extends Serializable> implements IBaseService<T> {
     }
 
     /**
+     * 保存实体的集合
+     *
+     * @param ts 实体得到几个
+     * @throws Exception
+     */
+    @Override
+    public boolean addList(List<T> ts) throws Exception {
+        if (ts != null) {
+            for (T t : ts) {
+                ts.add(t);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 从数据库删除对象
      * @param entityClass 删除对象的class
      * @param entityId 根据对象的id进行删除

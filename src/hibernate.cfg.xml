@@ -40,15 +40,14 @@
 		<mapping class="com.fozoto.duobao.model.Goods"/>
 		<mapping class="com.fozoto.duobao.model.Annal"/>
 		<mapping class="com.fozoto.duobao.model.Calculator"/>
-		<mapping class="com.fozoto.duobao.model.Detail"/>
 		<mapping class="com.fozoto.duobao.model.Issue"/>
 		<mapping class="com.fozoto.duobao.model.Lucky"/>
 		<mapping class="com.fozoto.duobao.model.Number"/>
-		<mapping class="com.fozoto.duobao.model.Shape"/>
         <mapping class="com.fozoto.duobao.model.Gamester"/>
 		<mapping class="com.fozoto.duobao.model.Lottery"/>
 		<mapping class="com.fozoto.duobao.model.Ad"/>
 		<mapping class="com.fozoto.duobao.model.Cart"/>
+		<mapping class="com.fozoto.duobao.model.Picture"/>
 	</session-factory>
 
 </hibernate-configuration>

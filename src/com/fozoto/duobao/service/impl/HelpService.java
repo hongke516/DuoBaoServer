@@ -70,4 +70,16 @@ public class HelpService <T extends Serializable> extends BaseService<T> impleme
     public T getByIssue(Class<T> clazz, int id, int issueId) {
         return helpDAO.getByIssue(clazz, id, issueId);
     }
+
+    /**
+     * 根据商品id进行删除T
+     *
+     * @param clazz   T
+     * @param goodsId 商品id
+     * @return true成功删除/false删除失败
+     */
+    @Override
+    public boolean deleteByGoods(Class<T> clazz, int goodsId) {
+        return helpDAO.deleteByGoods(clazz, goodsId);
+    }
 }

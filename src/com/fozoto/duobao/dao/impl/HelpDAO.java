@@ -78,4 +78,24 @@ public class HelpDAO<T extends Serializable> extends BaseDAO<T> implements IHelp
         Query query=em.createQuery(sql);
         return (T)query.getResultList().get(0);
     }
+
+    /**
+     * 根据商品id进行删除T
+     *
+     * @param clazz   T
+     * @param goodsId 商品id
+     * @return true成功删除/false删除失败
+     */
+    @Override
+    public boolean deleteByGoods(Class<T> clazz, int goodsId) {
+        try {
+            String entityName= getEntityName(clazz);
+            String sql = "delete from "+entityName+" where goods_id="+goodsId;
+            em.createQuery(sql).executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
